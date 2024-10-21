@@ -65,55 +65,60 @@ export default function SearchBar() {
 
       {isModalOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50"
           onClick={() => setIsModalOpen(false)}
         >
           <div 
-            className="w-full max-w-[800px] bg-background p-6 rounded-xl"
+            className="w-full max-w-[500px]  rounded-lg "
             onClick={(e) => e.stopPropagation()}
           >
-            <form onSubmit={handleSubmit} className="relative mb-4">
+            <form onSubmit={handleSubmit} className="relative mb-4 shadow-xl">
               <input
                 type="text"
                 placeholder="What do you want to do?"
-                className="w-full p-4 pl-12 h-12 rounded-xl bg-background text-foreground border border-black/[.08] dark:border-white/[.145]"
+                className="w-full pl-12 h-12 py-7 rounded-lg bg-background text-foreground focus:outline-none"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 autoFocus
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             </form>
-            {(result || isLoading) && (
-              <div className="w-full p-4 border-black/[.08] dark:border-white/[.145] border rounded-xl mt-2">
-                {search && (
-                  <div
-                    className={`font-bold text-sm flex flex-row items-center gap-2 ${
-                      error ? "text-red-500" : "text-emerald-500"
-                    }`}
-                  >
-                    {isLoading ? (
-                      <span className="animate-ping inline-flex h-1 w-1 rounded-full bg-emerald-500 opacity-90"></span>
-                    ) : error ? (
-                      <div className="inline-flex items-center justify-center p-1 rounded-full bg-red-500">
-                        <ErrorIcon className="w-3 h-3 text-white" />
-                      </div>
-                    ) : (
-                      <div className="inline-flex items-center justify-center p-1 rounded-full bg-emerald-500">
-                        <CheckIcon className="w-3 h-3 text-white" />
-                      </div>
-                    )}
-                    {search}
-                  </div>
-                )}
-                {result && <div className="mt-2">{result}</div>}
-              </div>
-            )}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="mt-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              Close
-            </button>
+            <div className="w-full p-8 bg-background border-black/[.08] dark:border-white/[.145] border rounded-lg mt-4">
+              {(result || isLoading) ? (
+                <>
+                  {search && (
+                    <div
+                      className={`font-medium text-md flex flex-row items-center gap-2 ${
+                        error ? "text-red-500" : "text-emerald-500"
+                      }`}
+                    >
+                      {isLoading ? (
+                        <span className="animate-ping inline-flex h-1 w-1 rounded-full bg-emerald-500 opacity-90"></span>
+                      ) : error ? (
+                        <div className="inline-flex items-center justify-center p-1 rounded-full bg-red-500">
+                          <ErrorIcon className="w-3 h-3 text-white" />
+                        </div>
+                      ) : (
+                        <div className="inline-flex items-center justify-center p-1 rounded-full bg-emerald-500">
+                          <CheckIcon className="w-3 h-3 text-white" />
+                        </div>
+                      )}
+                      {search}
+                    </div>
+                  )}
+                  {result && <div className="mt-2">{result}</div>}
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                    Describe what you want to do and I'll find the feature for you and help you use it.
+                  </p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">
+                    powered by hydra-ai
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
