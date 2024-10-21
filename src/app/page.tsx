@@ -1,5 +1,5 @@
 import ExamplesGrid from "./components/examples-grid";
-import SearchBar from "./components/search-bar";
+import SearchBar from "./components/searchable-components/search-bar";
 
 export default function Home() {
   return (

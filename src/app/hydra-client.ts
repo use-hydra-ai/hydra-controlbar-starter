@@ -1,13 +1,13 @@
 import { HydraClient } from "hydra-ai";
-import AttractionCard from "./components/attraction-card";
-import CurrencyConverter from "./components/currency-converter";
-import FlightSearch from "./components/flight-search";
-import HotelCard from "./components/hotel-card";
-import ItineraryDay from "./components/itinerary-day";
-import LanguagePhrasebook from "./components/language-phrasebook";
-import TransportationOption from "./components/transportation-option";
-import TravelTip from "./components/travel-tip";
-import WeatherWidget from "./components/weather-widget";
+import AttractionCard from "./components/searchable-components/attraction-card";
+import CurrencyConverter from "./components/searchable-components/currency-converter";
+import FlightSearch from "./components/searchable-components/flight-search";
+import HotelCard from "./components/searchable-components/hotel-card";
+import ItineraryDay from "./components/searchable-components/itinerary-day";
+import LanguagePhrasebook from "./components/searchable-components/language-phrasebook";
+import TransportationOption from "./components/searchable-components/transportation-option";
+import TravelTip from "./components/searchable-components/travel-tip";
+import WeatherWidget from "./components/searchable-components/weather-widget";
 
 const hydra = new HydraClient({
     hydraApiKey:

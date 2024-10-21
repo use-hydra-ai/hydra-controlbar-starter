@@ -1,14 +1,14 @@
 'use client';
 import { useState } from 'react';
-import AttractionCard from "./attraction-card";
-import CurrencyConverter from "./currency-converter";
-import FlightSearch from "./flight-search";
-import HotelCard from "./hotel-card";
-import ItineraryDay from "./itinerary-day";
-import LanguagePhrasebook from "./language-phrasebook";
-import TransportationOption from "./transportation-option";
-import TravelTip from "./travel-tip";
-import WeatherWidget from "./weather-widget";
+import AttractionCard from "./searchable-components/attraction-card";
+import CurrencyConverter from "./searchable-components/currency-converter";
+import FlightSearch from "./searchable-components/flight-search";
+import HotelCard from "./searchable-components/hotel-card";
+import ItineraryDay from "./searchable-components/itinerary-day";
+import LanguagePhrasebook from "./searchable-components/language-phrasebook";
+import TransportationOption from "./searchable-components/transportation-option";
+import TravelTip from "./searchable-components/travel-tip";
+import WeatherWidget from "./searchable-components/weather-widget";
 
 export default function ExamplesGrid() {
   const [isVisible, setIsVisible] = useState(false);
