@@ -33,7 +33,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-full max-w-[550px] p-2 bg-black/[.05] dark:bg-white/[.06] rounded-xl">
+    <div className="w-full max-w-[800px] p-2 bg-black/[.05] dark:bg-white/[.06] rounded-xl mb-8">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
