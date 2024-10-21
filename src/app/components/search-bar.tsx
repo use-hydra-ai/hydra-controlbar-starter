@@ -1,12 +1,17 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, ReactElement, useEffect, useState } from "react";
+import hydra, { initHydraRegistration } from "../hydra-client";
 
 export default function SearchBar() {
   const [inputValue, setInputValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string | null>();
-  const [result, setResult] = useState<string | null>();
+  const [result, setResult] = useState<ReactElement | string | null>();
   const [error, setError] = useState<boolean>(false);
+
+  useEffect(() => {
+      initHydraRegistration();
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -17,13 +22,14 @@ export default function SearchBar() {
     setInputValue("");
     setResult(null);
     setError(false);
-
     try {
-      if (inputValue === "error") {
-        throw new Error("Something went wrong");
+      const response = await hydra.generateComponent(inputValue);
+      if (response) {
+        const component = response.component;
+        setResult(component);
+      } else {
+        setResult("No result found");
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setResult(`Result for: ${inputValue}`);
     } catch (err) {
       setError(true);
       setResult("Something went wrong");
