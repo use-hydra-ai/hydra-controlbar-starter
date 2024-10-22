@@ -8,23 +8,27 @@ export default function SearchBar() {
   const [inputValue, setInputValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string | null>();
-  const [result, setResult] = useState<ReactElement | string | null>();
+  const [resultComponent, setResultComponent] = useState<ReactElement | string | null>();
+  const [resultText, setResultText] = useState<string | null>();
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     initHydraRegistration();
 
-    const handleEscPress = (event: KeyboardEvent) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         console.log("Escape pressed");
         setIsModalOpen(false);
+      } else if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault();
+        setIsModalOpen(true);
       }
     };
 
-    window.addEventListener('keydown', handleEscPress);
+    window.addEventListener('keydown', handleKeyPress);
 
     return () => {
-      window.removeEventListener('keydown', handleEscPress);
+      window.removeEventListener('keydown', handleKeyPress);
     };
   }, []);
 
@@ -35,19 +39,20 @@ export default function SearchBar() {
     setIsLoading(true);
     setSearch(inputValue);
     setInputValue("");
-    setResult(null);
+    setResultComponent(null);
+    setResultText(null);
     setError(false);
     try {
       const response = await hydra.generateComponent(inputValue);
       if (response) {
-        const component = response.component;
-        setResult(component);
+        setResultComponent(response.component ?? null);
+        setResultText(response.message ?? null);
       } else {
-        setResult("No result found");
+        setResultComponent("No result found");
       }
     } catch (err) {
       setError(true);
-      setResult("Something went wrong");
+      setResultComponent("Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -57,10 +62,10 @@ export default function SearchBar() {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full max-w-[800px] p-4 bg-white  rounded-xl mb-8 flex items-center text-gray-400 hover:bg-white/[.9] transition-colors"
+        className="w-full max-w-[500px] p-4 bg-white  rounded-xl mb-8 flex items-center text-gray-800 hover:bg-white/[.9] transition-colors"
       >
         <Search className="mr-3" size={20} />
-        <span>What do you want to do?</span>
+        <span className="text-md text-gray-400">What do you want to do?</span>
       </button>
 
       {isModalOpen && (
@@ -81,10 +86,10 @@ export default function SearchBar() {
                 onChange={(e) => setInputValue(e.target.value)}
                 autoFocus
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800" size={20} />
             </form>
             <div className="w-full p-8 bg-background border-black/[.08] dark:border-white/[.145] border rounded-lg mt-4">
-              {(result || isLoading) ? (
+              {(resultComponent || resultText || isLoading) ? (
                 <>
                   {search && (
                     <div
@@ -106,15 +111,16 @@ export default function SearchBar() {
                       {search}
                     </div>
                   )}
-                  {result && <div className="mt-2">{result}</div>}
+                  {resultText && <div className="mt-2 text-sm text-gray-800 dark:text-gray-800">{resultText}</div>}
+                  {resultComponent && <div className="mt-2">{resultComponent}</div>}
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="text-sm text-gray-800 dark:text-gray-800 mb-4">
                     Describe what you want to do and I'll find the feature for you and help you use it.
                   </p>
                   <p className="text-xs text-gray-400 dark:text-gray-500">
-                    powered by hydra-ai
+                    powered by <a href="https://github.com/michaelmagan/hydraai" className="text-blue-500 hover:text-blue-900 transition-colors">hydra-ai</a>
                   </p>
                 </>
               )}
