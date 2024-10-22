@@ -1,45 +1,74 @@
 import { Lead } from '@/app/services/leads-service';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 
 interface LeadNotesProps {
-  lead: Lead ;
+  lead: Lead;
 }
 
 export default function LeadNotes({ lead }: LeadNotesProps) {
   const [newNote, setNewNote] = useState('');
+  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newNote.trim()) {
-      setNewNote('');
+      setSubmitState('loading');
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setSubmitState('success');
+      setTimeout(() => {
+        setSubmitState('idle');
+        setNewNote('');
+      }, 2000);
     }
   };
 
   return (
-    <div className="space-y-4 bg-gray-100 p-4 rounded-lg">
-      <h3 className="text-md font-semibold">Notes for {lead.name}</h3>
-      <ul className="space-y-4">
-        {lead.notes.map((note) => (
-          <li key={note.id} className="bg-white p-4 rounded-lg shadow">
-            <p className="mb-2">{note.content}</p>
-            <p className="text-xs text-gray-500">
-              {DateTime.fromISO(note.timestamp).toFormat('EEEE LLL d h:mma')}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <textarea
-          value={newNote}
-          onChange={(e) => setNewNote(e.target.value)}
-          className="w-full p-2 border rounded"
-          placeholder="Add a new note..."
-        />
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Add Note
-        </button>
-      </form>
-    </div>
+    <Card className="w-full max-w-[500px]">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold">Notes for {lead.name}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <ul className="space-y-4">
+          {lead.notes.map((note) => (
+            <li key={note.id} className="bg-secondary p-4 rounded-lg">
+              <p className="mb-2">{note.content}</p>
+              <p className="text-xs text-muted-foreground">
+                {DateTime.fromISO(note.timestamp).toFormat('EEEE LLL d h:mma')}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter>
+        <form onSubmit={handleSubmit} className="space-y-2 w-full">
+          <Textarea
+            value={newNote}
+            onChange={(e) => setNewNote(e.target.value)}
+            placeholder="Add a new note..."
+            className="w-full"
+          />
+          <Button 
+            type="submit" 
+            className={`w-full transition-all duration-300 ease-in-out ${
+              submitState === 'loading' ? 'w-12 p-0' : 
+              submitState === 'success' ? 'w-24 bg-green-500 hover:bg-green-600' : ''
+            }`}
+            disabled={submitState !== 'idle'}
+          >
+            {submitState === 'idle' && 'Add Note'}
+            {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
+            {submitState === 'success' && 'Added!'}
+          </Button>
+        </form>
+      </CardFooter>
+    </Card>
   );
 }
