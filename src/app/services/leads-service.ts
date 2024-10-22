@@ -1,28 +1,11 @@
-export interface Note {
-    id: number;
-    content: string;
-    timestamp: string;
-}
+import { LeadSchema, LeadStatusEnum } from "@/schemas/lead";
+import { z } from "zod";
 
-export interface Meeting {
-    id: number;
-    date: string;
-    time: string;
-    description: string;
-}
+export type Lead = z.infer<typeof LeadSchema>;
+export type LeadStatus = z.infer<typeof LeadStatusEnum>;
 
-export type LeadStatus = "New" | "Contacted" | "Qualified" | "Closed";
-
-export interface Lead {
-    id: number;
-    name: string;
-    email: string;
-    company: string;
-    phone: string;
-    status: LeadStatus;
-    notes: Note[];
-    meetings: Meeting[];
-}
+export type Note = z.infer<typeof LeadSchema>["notes"][number];
+export type Meeting = z.infer<typeof LeadSchema>["meetings"][number];
 
 let leads: Lead[] = [
     {
