@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import AddLeadForm from './searchable-components/add-lead-form';
+import EditLeadForm from './searchable-components/edit-lead-form';
 import EmailComposer from './searchable-components/email-composer';
-import LeadForm from './searchable-components/lead-form';
 import LeadList from './searchable-components/lead-list';
 import LeadNotes from './searchable-components/lead-notes';
-import LeadStatusUpdate from './searchable-components/lead-status-update';
 import MeetingScheduler from './searchable-components/meeting-scheduler';
 
 export default function ExamplesGrid() {
@@ -27,18 +27,26 @@ export default function ExamplesGrid() {
       {isVisible && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
           <div>
-            <h2 className="text-xl font-semibold mb-2">Lead Form</h2>
-            <LeadForm />
+            <h2 className="text-xl font-semibold mb-2">Add Lead Form</h2>
+            <AddLeadForm />
           </div>
           <div>
             <h2 className="text-xl font-semibold mb-2">Lead List</h2>
             <LeadList/>
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Lead Status Update</h2>
-            <LeadStatusUpdate
-              leadId={1}
-              currentStatus="New"
+            <h2 className="text-xl font-semibold mb-2">Edit Lead Form</h2>
+            <EditLeadForm
+              lead={{
+                id: 1,
+                name: "John Doe",
+                email: "john@example.com",
+                company: "Acme Inc.",
+                phone: "123-456-7890",
+                status: "New",
+                notes: [],
+                meetings: [],
+              }}
             />
           </div>
           <div>
@@ -64,7 +72,6 @@ export default function ExamplesGrid() {
           <div>
             <h2 className="text-xl font-semibold mb-2">Meeting Scheduler</h2>
             <MeetingScheduler
-              leadId={1}
             />
           </div>
           <div>

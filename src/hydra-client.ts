@@ -1,9 +1,9 @@
 import { HydraClient } from "hydra-ai";
+import AddLeadForm from "./components/searchable-components/add-lead-form";
+import EditLeadForm from "./components/searchable-components/edit-lead-form";
 import EmailComposer from "./components/searchable-components/email-composer";
-import LeadForm from "./components/searchable-components/lead-form";
 import LeadList from "./components/searchable-components/lead-list";
 import LeadNotes from "./components/searchable-components/lead-notes";
-import LeadStatusUpdate from "./components/searchable-components/lead-status-update";
 import MeetingScheduler from "./components/searchable-components/meeting-scheduler";
 import { LeadSchema } from "./schemas/lead";
 
@@ -22,17 +22,14 @@ export const initHydraRegistration = async () => {
 
     try {
         await Promise.all([
-            hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
+            hydra.registerComponent("add-lead-form", "A form for adding new leads", AddLeadForm,
                 { lead: leadSchemaString }
             ),
             hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
                 { leads: `${leadSchemaString}[]` }
             ),
-            hydra.registerComponent("lead-status-update", "A component for updating lead status", LeadStatusUpdate,
-                {
-                    leadId: "number",
-                    currentStatus: leadStatusValues
-                }
+            hydra.registerComponent("edit-lead-form", "A form for editing existing leads", EditLeadForm,
+                { lead: leadSchemaString }
             ),
             hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
                 { lead: leadSchemaString }

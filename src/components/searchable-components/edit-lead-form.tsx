@@ -4,33 +4,33 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
-interface LeadFormProps {
-  lead?: Lead;
+interface EditLeadFormProps {
+  lead: Lead;
 }
 
-export default function LeadForm({lead}: LeadFormProps) {
-  const [name, setName] = useState(lead?.name || '');
-  const [email, setEmail] = useState(lead?.email || '');
-  const [company, setCompany] = useState(lead?.company || '');
-  const [phone, setPhone] = useState(lead?.phone || '');
-  const [status, setStatus] = useState<LeadStatus>(lead?.status || 'New');
+export default function EditLeadForm({lead}: EditLeadFormProps) {
+  const [name, setName] = useState(lead.name);
+  const [email, setEmail] = useState(lead.email);
+  const [company, setCompany] = useState(lead.company);
+  const [phone, setPhone] = useState(lead.phone);
+  const [status, setStatus] = useState<LeadStatus>(lead.status);
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
 
   useEffect(() => {
-    setName(lead?.name || '');
-    setEmail(lead?.email || '');
-    setCompany(lead?.company || '');
-    setPhone(lead?.phone || '');
-    setStatus(lead?.status || 'New');
+    setName(lead.name);
+    setEmail(lead.email);
+    setCompany(lead.company);
+    setPhone(lead.phone);
+    setStatus(lead.status);
   }, [lead]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,11 +43,6 @@ export default function LeadForm({lead}: LeadFormProps) {
     setSubmitState('success');
     setTimeout(() => {
       setSubmitState('idle');
-      setName('');
-      setEmail('');
-      setCompany('');
-      setPhone('');
-      setStatus('New');
     }, 2000);
   };
 
@@ -64,7 +59,7 @@ export default function LeadForm({lead}: LeadFormProps) {
   return (
     <Card className="w-[400px]">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Add a lead</CardTitle>
+        <CardTitle className="text-lg font-semibold">Edit lead</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
@@ -73,7 +68,6 @@ export default function LeadForm({lead}: LeadFormProps) {
             <Input
               id="name"
               value={name}
-              placeholder="Lead Name"
               onChange={(e) => setName(e.target.value)}
               required
             />
@@ -84,7 +78,6 @@ export default function LeadForm({lead}: LeadFormProps) {
               type="email"
               id="email"
               value={email}
-              placeholder="Lead Email"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -94,7 +87,6 @@ export default function LeadForm({lead}: LeadFormProps) {
             <Input
               id="company"
               value={company}
-              placeholder="Lead Company"
               onChange={(e) => setCompany(e.target.value)}
             />
           </div>
@@ -104,7 +96,6 @@ export default function LeadForm({lead}: LeadFormProps) {
               type="tel"
               id="phone"
               value={phone}
-              placeholder="Lead Phone"
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
@@ -142,9 +133,9 @@ export default function LeadForm({lead}: LeadFormProps) {
             }`}
             disabled={submitState !== 'idle'}
           >
-            {submitState === 'idle' && 'Create'}
+            {submitState === 'idle' && 'Update'}
             {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
-            {submitState === 'success' && 'Added!'}
+            {submitState === 'success' && 'Updated!'}
           </Button>
         </CardFooter>
       </form>
