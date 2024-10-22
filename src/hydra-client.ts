@@ -35,8 +35,9 @@ export const initHydraRegistration = async () => {
         ),
         hydra.registerComponent("email-composer", "A component for composing and sending emails to leads", EmailComposer,
             {
-                leadId: "number",
-                leadEmail: "string"
+                email: "string",
+                initialSubject: "string",
+                initialMessage: "string"
             }
         ),
     ]);

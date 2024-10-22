@@ -70,8 +70,9 @@ export default function ExamplesGrid() {
           <div>
             <h2 className="text-xl font-semibold mb-2">Email Composer</h2>
             <EmailComposer
-              leadId={1}
-              leadEmail="john@example.com"
+              email="john@example.com"
+              initialSubject="Hello"
+              initialMessage="How are you?"
             />
           </div>
         </div>
