@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getLeads, Lead, LeadStatus, updateLeadStatus } from '../../services/leads-service';
+import { getLeads, Lead, LeadStatus, updateLeadStatus } from '../../app/services/leads-service';
 
 export default function LeadList() {
   const [leadsState, setLeadsState] = useState<Lead[]>([]);
@@ -45,7 +45,7 @@ export default function LeadList() {
           <div className="relative">
             <button
               onClick={() => setOpenDropdown(openDropdown === lead.id ? null : lead.id)}
-              className={`px-2 py-1 rounded-md text-sm font-medium ${getStatusColor(lead.status).bg} ${getStatusColor(lead.status).text}`}
+              className={`px-2 py-1 rounded-md text-sm font-medium hover:opacity-80 ${getStatusColor(lead.status).bg} ${getStatusColor(lead.status).text}`}
             >
               {lead.status}
             </button>

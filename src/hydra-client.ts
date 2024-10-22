@@ -14,7 +14,7 @@ export const initHydraRegistration = async () => {
     await Promise.all([
         hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
             {
-                initialValues: "{ name?: string; email?: string; company?: string; phone?: string }"
+                lead: "{ name?: string; email?: string; company?: string; phone?: string }"
             }
         ),
         hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
