@@ -11,13 +11,15 @@ export interface Meeting {
     description: string;
 }
 
+export type LeadStatus = "New" | "Contacted" | "Qualified" | "Closed";
+
 export interface Lead {
     id: number;
     name: string;
     email: string;
     company: string;
     phone: string;
-    status: "New" | "Contacted" | "Qualified" | "Closed";
+    status: LeadStatus;
     notes: Note[];
     meetings: Meeting[];
 }
@@ -59,7 +61,7 @@ export async function addLead(lead: Omit<Lead, 'id'>): Promise<Lead> {
     return newLead;
 }
 
-export async function updateLeadStatus(id: number, status: "New" | "Contacted" | "Qualified" | "Closed"): Promise<Lead | undefined> {
+export async function updateLeadStatus(id: number, status: LeadStatus): Promise<Lead | undefined> {
     const lead = await getLead(id);
     if (lead) {
         lead.status = status;
