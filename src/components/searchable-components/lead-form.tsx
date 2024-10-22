@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
 interface LeadFormProps {
@@ -22,6 +23,7 @@ export default function LeadForm({lead}: LeadFormProps) {
   const [company, setCompany] = useState(lead?.company || '');
   const [phone, setPhone] = useState(lead?.phone || '');
   const [status, setStatus] = useState<LeadStatus>(lead?.status || 'New');
+  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
 
   useEffect(() => {
     setName(lead?.name || '');
@@ -31,13 +33,22 @@ export default function LeadForm({lead}: LeadFormProps) {
     setStatus(lead?.status || 'New');
   }, [lead]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setName('');
-    setEmail('');
-    setCompany('');
-    setPhone('');
-    setStatus('New');
+    setSubmitState('loading');
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setSubmitState('success');
+    setTimeout(() => {
+      setSubmitState('idle');
+      setName('');
+      setEmail('');
+      setCompany('');
+      setPhone('');
+      setStatus('New');
+    }, 2000);
   };
 
   const getStatusColor = (status: LeadStatus): string => {
@@ -123,8 +134,17 @@ export default function LeadForm({lead}: LeadFormProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full">
-            Create
+          <Button 
+            type="submit" 
+            className={`w-full transition-all duration-300 ease-in-out ${
+              submitState === 'loading' ? 'w-12 p-0' : 
+              submitState === 'success' ? 'w-24 bg-green-500 hover:bg-green-600' : ''
+            }`}
+            disabled={submitState !== 'idle'}
+          >
+            {submitState === 'idle' && 'Create'}
+            {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
+            {submitState === 'success' && 'Added!'}
           </Button>
         </CardFooter>
       </form>

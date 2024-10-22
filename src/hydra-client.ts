@@ -14,18 +14,18 @@ export const initHydraRegistration = async () => {
     await Promise.all([
         hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
             {
-                lead: "{ name?: string; email?: string; company?: string; phone?: string }"
+                lead: "{ name?: string; email?: string; company?: string; phone?: string; status?: 'New' | 'Contacted' | 'Qualified' | 'Closed' }"
             }
         ),
         hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
             {
-                leads: "{id: number, name: string, email: string, company: string, status: string}[]"
+                leads: "{id: number, name: string, email: string, company: string, status: 'New' | 'Contacted' | 'Qualified' | 'Closed'}[]"
             }
         ),
         hydra.registerComponent("lead-status-update", "A component for updating lead status", LeadStatusUpdate,
             {
                 leadId: "number",
-                currentStatus: "string"
+                currentStatus: "'New' | 'Contacted' | 'Qualified' | 'Closed'"
             }
         ),
         hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
