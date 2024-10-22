@@ -119,13 +119,14 @@ export default function SearchBar() {
                   <p className="text-sm text-gray-800 dark:text-gray-800 mb-4">
                     Describe what you want to do and I'll find the feature for you and help you use it.
                   </p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500">
-                    powered by <a href="https://github.com/michaelmagan/hydraai" className="text-blue-500 hover:text-blue-900 transition-colors">hydra-ai</a>
-                  </p>
+                  
                 </>
               )}
+              <p className="mt-4 text-xs text-gray-400 dark:text-gray-500">
+                powered by <a href="https://github.com/michaelmagan/hydraai" className="text-blue-500 hover:text-blue-900 transition-colors ">hydra-ai</a>
+              </p>
             </div>
-          </div>
+            </div>
         </div>
       )}
     </>
