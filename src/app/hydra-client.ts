@@ -1,85 +1,53 @@
 import { HydraClient } from "hydra-ai";
-import AttractionCard from "./components/searchable-components/attraction-card";
-import CurrencyConverter from "./components/searchable-components/currency-converter";
-import FlightSearch from "./components/searchable-components/flight-search";
-import HotelCard from "./components/searchable-components/hotel-card";
-import ItineraryDay from "./components/searchable-components/itinerary-day";
-import LanguagePhrasebook from "./components/searchable-components/language-phrasebook";
-import TransportationOption from "./components/searchable-components/transportation-option";
-import TravelTip from "./components/searchable-components/travel-tip";
-import WeatherWidget from "./components/searchable-components/weather-widget";
+import EmailComposer from "./components/searchable-components/email-composer";
+import LeadForm from "./components/searchable-components/lead-form";
+import LeadList from "./components/searchable-components/lead-list";
+import LeadNotes from "./components/searchable-components/lead-notes";
+import LeadStatusUpdate from "./components/searchable-components/lead-status-update";
+import MeetingScheduler from "./components/searchable-components/meeting-scheduler";
 
 const hydra = new HydraClient({
-    hydraApiKey:
-        process.env.NEXT_PUBLIC_HYDRA_API_KEY,
+    hydraApiKey: process.env.NEXT_PUBLIC_HYDRA_API_KEY,
 });
 
 export const initHydraRegistration = async () => {
     await Promise.all([
-        hydra.registerComponent("attraction-card", "A card displaying information about a tourist attraction", AttractionCard,
+        hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
             {
-                name: "string",
-                image: "string",
-                description: "string",
-                rating: "number"
+                onSubmit: "(lead: { name: string; email: string; company: string; phone: string }) => void"
             }
         ),
-        hydra.registerComponent("currency-converter", "A widget for converting between currencies", CurrencyConverter,
+        hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
             {
-                baseCurrency: "string",
-                targetCurrency: "string",
-                exchangeRate: "number"
+                leads: "{id: number, name: string, email: string, company: string, status: string}[]",
+                onStatusChange: "(id: number, newStatus: string) => void"
             }
         ),
-        hydra.registerComponent("flight-search", "A form for searching flights", FlightSearch,
+        hydra.registerComponent("lead-status-update", "A component for updating lead status", LeadStatusUpdate,
             {
-                initialFrom: "string",
-                initialTo: "string",
-                initialDate: "string"
+                leadId: "number",
+                currentStatus: "string",
+                onStatusUpdate: "(leadId: number, newStatus: string) => void"
             }
         ),
-        hydra.registerComponent("hotel-card", "A card displaying information about a hotel", HotelCard,
+        hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
             {
-                name: "string",
-                image: "string",
-                rating: "number",
-                price: "number",
-                currency: "string"
+                leadId: "number",
+                notes: "{id: number, content: string, timestamp: string}[]",
+                onAddNote: "(leadId: number, content: string) => void"
             }
         ),
-        hydra.registerComponent("itinerary-day", "A component showing activities for a day in an itinerary", ItineraryDay,
+        hydra.registerComponent("meeting-scheduler", "A component for scheduling meetings with leads", MeetingScheduler,
             {
-                date: "string",
-                activities: "{time: string, description: string}[]"
+                leadId: "number",
+                onScheduleMeeting: "(leadId: number, date: string, time: string, description: string) => void"
             }
         ),
-        hydra.registerComponent("language-phrasebook", "A phrasebook for common expressions in a foreign language", LanguagePhrasebook,
+        hydra.registerComponent("email-composer", "A component for composing and sending emails to leads", EmailComposer,
             {
-                language: "string",
-                phrases: "{original: string, translated: string}[]"
-            }
-        ),
-        hydra.registerComponent("transportation-option", "A component showing a transportation option", TransportationOption,
-            {
-                type: "string",
-                icon: "string",
-                duration: "string",
-                price: "number",
-                currency: "string"
-            }
-        ),
-        hydra.registerComponent("travel-tip", "A component displaying a travel tip", TravelTip,
-            {
-                tip: "string",
-                author: "string"
-            }
-        ),
-        hydra.registerComponent("weather-widget", "A widget displaying weather information", WeatherWidget,
-            {
-                city: "string",
-                temperature: "number",
-                condition: "string",
-                icon: "string"
+                leadId: "number",
+                leadEmail: "string",
+                onSendEmail: "(leadId: number, subject: string, body: string) => void"
             }
         ),
     ]);
