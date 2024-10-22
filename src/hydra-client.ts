@@ -12,35 +12,48 @@ const hydra = new HydraClient({
 });
 
 export const initHydraRegistration = async () => {
-    const leadSchemaString = JSON.stringify(LeadSchema.shape);
+    if (!LeadSchema || !LeadSchema.shape) {
+        console.error("LeadSchema is not properly defined");
+        return;
+    }
 
-    await Promise.all([
-        hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
-            { lead: leadSchemaString }
-        ),
-        hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
-            { leads: `${leadSchemaString}[]` }
-        ),
-        hydra.registerComponent("lead-status-update", "A component for updating lead status", LeadStatusUpdate,
-            {
-                leadId: "number",
-                currentStatus: LeadSchema.shape.status._def.values.join(" | ")
-            }
-        ),
-        hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
-            { lead: leadSchemaString }
-        ),
-        hydra.registerComponent("meeting-scheduler", "A component for scheduling meetings with leads", MeetingScheduler,
-            { leadId: "number" }
-        ),
-        hydra.registerComponent("email-composer", "A component for composing and sending emails to leads", EmailComposer,
-            {
-                email: "string",
-                initialSubject: "string",
-                initialMessage: "string"
-            }
-        ),
-    ]);
+    const leadSchemaString = JSON.stringify(LeadSchema.shape);
+    const leadStatusValues = LeadSchema.shape.status?._def?.values?.join(" | ") || "string";
+
+    try {
+        await Promise.all([
+            hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
+                { lead: leadSchemaString }
+            ),
+            hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
+                { leads: `${leadSchemaString}[]` }
+            ),
+            hydra.registerComponent("lead-status-update", "A component for updating lead status", LeadStatusUpdate,
+                {
+                    leadId: "number",
+                    currentStatus: leadStatusValues
+                }
+            ),
+            hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
+                { lead: leadSchemaString }
+            ),
+            hydra.registerComponent("meeting-scheduler", "A component for scheduling meetings with leads", MeetingScheduler,
+                {
+                    initialDateTimeISO: "string in ISO format",
+                    initialDescription: "string"
+                }
+            ),
+            hydra.registerComponent("email-composer", "A component for composing and sending emails to leads", EmailComposer,
+                {
+                    email: "string",
+                    initialSubject: "string",
+                    initialMessage: "string"
+                }
+            ),
+        ]);
+    } catch (error) {
+        console.error("Error registering components:", error);
+    }
 };
 
 export default hydra;

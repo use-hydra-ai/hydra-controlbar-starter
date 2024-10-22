@@ -1,60 +1,121 @@
-import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
+import React, { useEffect, useState } from 'react';
 
 interface MeetingSchedulerProps {
-  leadId: number;
+  initialDateTimeISO?: string;
+  initialDescription?: string;
 }
 
-export default function MeetingScheduler({ leadId }: MeetingSchedulerProps) {
+export default function MeetingScheduler({ 
+  initialDateTimeISO: initialDateTime = '', 
+  initialDescription = '' 
+}: MeetingSchedulerProps) {
+  const [dateTime, setDateTime] = useState(initialDateTime);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(initialDescription);
+  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (initialDateTime) {
+      const dateObj = new Date(initialDateTime);
+      setDate(dateObj.toISOString().split('T')[0]);
+      setTime(dateObj.toTimeString().slice(0, 5));
+    }
+  }, [initialDateTime]);
+
+  const handleDateTimeChange = (newDate: string, newTime: string) => {
+    if (newDate && newTime) {
+      const isoString = `${newDate}T${newTime}:00`;
+      setDateTime(isoString);
+    } else {
+      setDateTime('');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (date && time && description) {
-      setDate('');
-      setTime('');
-      setDescription('');
+    if (dateTime && description) {
+      setSubmitState('loading');
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setSubmitState('success');
+      setTimeout(() => {
+        setSubmitState('idle');
+        setDateTime('');
+        setDate('');
+        setTime('');
+        setDescription('');
+      }, 2000);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
-        <input
-          type="date"
-          id="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
-        <input
-          type="time"
-          id="time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          required
-        />
-      </div>
-      <button type="submit" className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Schedule Meeting
-      </button>
-    </form>
+    <Card className="w-[400px]">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold">Schedule Meeting</CardTitle>
+      </CardHeader>
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4">
+          <div className="space-y-1">
+            <Label htmlFor="date">Date</Label>
+            <Input
+              type="date"
+              id="date"
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+                handleDateTimeChange(e.target.value, time);
+              }}
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="time">Time</Label>
+            <Input
+              type="time"
+              id="time"
+              value={time}
+              onChange={(e) => {
+                setTime(e.target.value);
+                handleDateTimeChange(date, e.target.value);
+              }}
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              required
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button 
+            type="submit" 
+            className={`w-full transition-all duration-300 ease-in-out ${
+              submitState === 'loading' ? 'w-12 p-0' : 
+              submitState === 'success' ? 'w-24 bg-green-500 hover:bg-green-600' : ''
+            }`}
+            disabled={submitState !== 'idle'}
+          >
+            {submitState === 'idle' && 'Schedule Meeting'}
+            {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
+            {submitState === 'success' && 'Scheduled!'}
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }
