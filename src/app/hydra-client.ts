@@ -14,40 +14,35 @@ export const initHydraRegistration = async () => {
     await Promise.all([
         hydra.registerComponent("lead-form", "A form for adding new leads", LeadForm,
             {
-                onSubmit: "(lead: { name: string; email: string; company: string; phone: string }) => void"
+                initialValues: "{ name?: string; email?: string; company?: string; phone?: string }"
             }
         ),
         hydra.registerComponent("lead-list", "A list of leads with their statuses", LeadList,
             {
-                leads: "{id: number, name: string, email: string, company: string, status: string}[]",
-                onStatusChange: "(id: number, newStatus: string) => void"
+                leads: "{id: number, name: string, email: string, company: string, status: string}[]"
             }
         ),
         hydra.registerComponent("lead-status-update", "A component for updating lead status", LeadStatusUpdate,
             {
                 leadId: "number",
-                currentStatus: "string",
-                onStatusUpdate: "(leadId: number, newStatus: string) => void"
+                currentStatus: "string"
             }
         ),
         hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
             {
                 leadId: "number",
-                notes: "{id: number, content: string, timestamp: string}[]",
-                onAddNote: "(leadId: number, content: string) => void"
+                notes: "{id: number, content: string, timestamp: string}[]"
             }
         ),
         hydra.registerComponent("meeting-scheduler", "A component for scheduling meetings with leads", MeetingScheduler,
             {
-                leadId: "number",
-                onScheduleMeeting: "(leadId: number, date: string, time: string, description: string) => void"
+                leadId: "number"
             }
         ),
         hydra.registerComponent("email-composer", "A component for composing and sending emails to leads", EmailComposer,
             {
                 leadId: "number",
-                leadEmail: "string",
-                onSendEmail: "(leadId: number, subject: string, body: string) => void"
+                leadEmail: "string"
             }
         ),
     ]);

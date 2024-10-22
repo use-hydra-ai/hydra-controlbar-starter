@@ -1,21 +1,22 @@
+import { Lead } from '@/app/services/leads-service';
 import React, { useEffect, useState } from 'react';
 
 interface LeadFormProps {
-  initialValues?: { name?: string; email?: string; company?: string; phone?: string };
+  lead?: Lead;
 }
 
-export default function LeadForm({  initialValues = {} }: LeadFormProps) {
-  const [name, setName] = useState(initialValues.name || '');
-  const [email, setEmail] = useState(initialValues.email || '');
-  const [company, setCompany] = useState(initialValues.company || '');
-  const [phone, setPhone] = useState(initialValues.phone || '');
+export default function LeadForm({lead}: LeadFormProps) {
+  const [name, setName] = useState(lead?.name || '');
+  const [email, setEmail] = useState(lead?.email || '');
+  const [company, setCompany] = useState(lead?.company || '');
+  const [phone, setPhone] = useState(lead?.phone || '');
 
   useEffect(() => {
-    setName(initialValues.name || '');
-    setEmail(initialValues.email || '');
-    setCompany(initialValues.company || '');
-    setPhone(initialValues.phone || '');
-  }, [initialValues]);
+    setName(lead?.name || '');
+    setEmail(lead?.email || '');
+    setCompany(lead?.company || '');
+    setPhone(lead?.phone || '');
+  }, [lead]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

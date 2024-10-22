@@ -1,17 +1,24 @@
+import { useEffect, useState } from 'react';
+import { getLeads, Lead, updateLeadStatus } from '../../services/leads-service';
 
-interface Lead {
-  id: number;
-  name: string;
-  email: string;
-  company: string;
-  status: string;
-}
+export default function LeadList() {
+  const [leadsState, setLeadsState] = useState<Lead[]>([]);
 
-interface LeadListProps {
-  leads: Lead[];
-}
+  useEffect(() => {
+    const fetchLeads = async () => {
+      const leads = await getLeads();
+      setLeadsState(leads);
+    };
+    fetchLeads();
+  }, []);
 
-export default function LeadList({ leads }: LeadListProps) {
+  const handleStatusChange = async (leadId: number, newStatus: string) => {
+    const updatedLead = await updateLeadStatus(leadId, newStatus);
+    if (updatedLead) {
+      setLeadsState(leadsState.map(lead => lead.id === leadId ? updatedLead : lead));
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -24,7 +31,7 @@ export default function LeadList({ leads }: LeadListProps) {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {leads.map((lead) => (
+          {leadsState.map((lead) => (
             <tr key={lead.id}>
               <td className="px-6 py-4 whitespace-nowrap">{lead.name}</td>
               <td className="px-6 py-4 whitespace-nowrap">{lead.email}</td>
@@ -32,6 +39,7 @@ export default function LeadList({ leads }: LeadListProps) {
               <td className="px-6 py-4 whitespace-nowrap">
                 <select
                   value={lead.status}
+                  onChange={(e) => handleStatusChange(lead.id, e.target.value)}
                   className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 >
                   <option value="New">New</option>

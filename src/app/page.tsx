@@ -1,3 +1,4 @@
+import ExamplesGrid from "./components/examples-grid";
 import SearchBar from "./components/search-bar";
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
           <h2 className="text-xl font-semibold mb-2">Search Bar</h2>
           <SearchBar />
         </div>
-        {/* <ExamplesGrid /> */}
+        <ExamplesGrid />
       </main>
     </div>
   );

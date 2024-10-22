@@ -1,17 +1,11 @@
+import { Lead } from '@/app/services/leads-service';
 import React, { useState } from 'react';
 
-interface Note {
-  id: number;
-  content: string;
-  timestamp: string;
-}
-
 interface LeadNotesProps {
-  leadId: number;
-  notes: Note[];
+  lead: Lead ;
 }
 
-export default function LeadNotes({ leadId, notes }: LeadNotesProps) {
+export default function LeadNotes({ lead }: LeadNotesProps) {
   const [newNote, setNewNote] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,7 +19,7 @@ export default function LeadNotes({ leadId, notes }: LeadNotesProps) {
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Notes</h3>
       <ul className="space-y-2">
-        {notes.map((note) => (
+        {lead.notes.map((note) => (
           <li key={note.id} className="bg-gray-100 p-2 rounded">
             <p>{note.content}</p>
             <p className="text-xs text-gray-500">{note.timestamp}</p>

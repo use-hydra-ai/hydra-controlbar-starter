@@ -1,14 +1,12 @@
 'use client';
+
 import { useState } from 'react';
-import AttractionCard from "./searchable-components/attraction-card";
-import CurrencyConverter from "./searchable-components/currency-converter";
-import FlightSearch from "./searchable-components/flight-search";
-import HotelCard from "./searchable-components/hotel-card";
-import ItineraryDay from "./searchable-components/itinerary-day";
-import LanguagePhrasebook from "./searchable-components/language-phrasebook";
-import TransportationOption from "./searchable-components/transportation-option";
-import TravelTip from "./searchable-components/travel-tip";
-import WeatherWidget from "./searchable-components/weather-widget";
+import EmailComposer from './searchable-components/email-composer';
+import LeadForm from './searchable-components/lead-form';
+import LeadList from './searchable-components/lead-list';
+import LeadNotes from './searchable-components/lead-notes';
+import LeadStatusUpdate from './searchable-components/lead-status-update';
+import MeetingScheduler from './searchable-components/meeting-scheduler';
 
 export default function ExamplesGrid() {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,82 +27,51 @@ export default function ExamplesGrid() {
       {isVisible && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
           <div>
-            <h2 className="text-xl font-semibold mb-2">Flight Search</h2>
-            <FlightSearch initialFrom="New York" initialTo="Los Angeles" initialDate="2024-06-15" />
+            <h2 className="text-xl font-semibold mb-2">Lead Form</h2>
+            <LeadForm />
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Hotel Card</h2>
-            <HotelCard
-              name="Luxury Resort & Spa"
-              image="https://example.com/hotel.jpg"
-              rating={4.5}
-              price={250}
-              currency="USD"
+            <h2 className="text-xl font-semibold mb-2">Lead List</h2>
+            <LeadList/>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Lead Status Update</h2>
+            <LeadStatusUpdate
+              leadId={1}
+              currentStatus="New"
             />
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Itinerary Day</h2>
-            <ItineraryDay
-              date="Day 1 - June 15, 2024"
-              activities={[
-                { time: "09:00 AM", description: "City Tour" },
-                { time: "12:00 PM", description: "Lunch at Local Restaurant" },
-                { time: "03:00 PM", description: "Museum Visit" },
-              ]}
+            <h2 className="text-xl font-semibold mb-2">Lead Notes</h2>
+            <LeadNotes
+              lead={{
+                id: 1,
+                name: "John Doe",
+                email: "john@example.com",
+                company: "Acme Inc.",
+                phone: "123-456-7890",
+                status: "New",
+                notes: [
+                    { id: 1, content: "Initial contact made", timestamp: "2024-06-15T10:00:00" },
+                    { id: 2, content: "Scheduled follow-up call", timestamp: "2024-06-16T14:30:00" },
+                ],
+                meetings: [
+                    { id: 1, date: "2024-06-20", time: "14:00", description: "Introductory call" },
+                ],
+              }}
             />
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Weather Widget</h2>
-            <WeatherWidget
-              city="Paris"
-              temperature={22}
-              condition="Sunny"
-              icon="https://example.com/sunny-icon.png"
+            <h2 className="text-xl font-semibold mb-2">Meeting Scheduler</h2>
+            <MeetingScheduler
+              leadId={1}
             />
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Currency Converter</h2>
-            <CurrencyConverter
-              baseCurrency="USD"
-              targetCurrency="EUR"
-              exchangeRate={0.85}
-            />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Travel Tip</h2>
-            <TravelTip
-              tip="Always carry a portable charger for your devices."
-              author="Experienced Traveler"
-            />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Language Phrasebook</h2>
-            <LanguagePhrasebook
-              language="French"
-              phrases={[
-                { original: "Hello", translated: "Bonjour" },
-                { original: "Thank you", translated: "Merci" },
-                { original: "Goodbye", translated: "Au revoir" },
-              ]}
-            />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Attraction Card</h2>
-            <AttractionCard
-              name="Eiffel Tower"
-              image="https://example.com/eiffel-tower.jpg"
-              description="Iconic iron tower in Paris"
-              rating={4.8}
-            />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Transportation Option</h2>
-            <TransportationOption
-              type="Metro"
-              icon="https://example.com/metro-icon.png"
-              duration="30 mins"
-              price={2.5}
-              currency="EUR"
+            <h2 className="text-xl font-semibold mb-2">Email Composer</h2>
+            <EmailComposer
+              leadId={1}
+              leadEmail="john@example.com"
             />
           </div>
         </div>
