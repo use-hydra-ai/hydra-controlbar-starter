@@ -40,6 +40,16 @@ export default function LeadForm({lead}: LeadFormProps) {
     setStatus('New');
   };
 
+  const getStatusColor = (status: LeadStatus): string => {
+    switch (status) {
+      case 'New': return '#e5f6fd';
+      case 'Contacted': return '#fff4e5';
+      case 'Qualified': return '#e5ffe5';
+      case 'Closed': return '#ffe5e5';
+      default: return 'transparent';
+    }
+  };
+
   return (
     <Card className="w-[400px]">
       <CardHeader>
@@ -87,12 +97,21 @@ export default function LeadForm({lead}: LeadFormProps) {
             <Label htmlFor="status">Status</Label>
             <Select value={status} onValueChange={(value) => setStatus(value as LeadStatus)}>
               <SelectTrigger>
-                <SelectValue placeholder="Select a status" />
+                <SelectValue placeholder="Select a status">
+                  <span style={{ backgroundColor: getStatusColor(status), padding: '2px 8px', borderRadius: '4px', display: 'inline-block' }}>
+                    {status}
+                  </span>
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {["New", "Contacted", "Qualified", "Closed"].map((statusOption) => (
-                  <SelectItem key={statusOption} value={statusOption}>
-                    {statusOption}
+                  <SelectItem 
+                    key={statusOption} 
+                    value={statusOption}
+                  >
+                    <span style={{ backgroundColor: getStatusColor(statusOption as LeadStatus), padding: '2px 8px', borderRadius: '4px', display: 'inline-block' }}>
+                      {statusOption}
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
