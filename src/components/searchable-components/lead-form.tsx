@@ -53,7 +53,7 @@ export default function LeadForm({lead}: LeadFormProps) {
   return (
     <Card className="w-[400px]">
       <CardHeader>
-        <CardTitle>Lead Form</CardTitle>
+        <CardTitle className="text-lg font-semibold">Add a lead</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
@@ -62,6 +62,7 @@ export default function LeadForm({lead}: LeadFormProps) {
             <Input
               id="name"
               value={name}
+              placeholder="Lead Name"
               onChange={(e) => setName(e.target.value)}
               required
             />
@@ -72,6 +73,7 @@ export default function LeadForm({lead}: LeadFormProps) {
               type="email"
               id="email"
               value={email}
+              placeholder="Lead Email"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -81,6 +83,7 @@ export default function LeadForm({lead}: LeadFormProps) {
             <Input
               id="company"
               value={company}
+              placeholder="Lead Company"
               onChange={(e) => setCompany(e.target.value)}
             />
           </div>
@@ -90,6 +93,7 @@ export default function LeadForm({lead}: LeadFormProps) {
               type="tel"
               id="phone"
               value={phone}
+              placeholder="Lead Phone"
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
@@ -120,7 +124,7 @@ export default function LeadForm({lead}: LeadFormProps) {
         </CardContent>
         <CardFooter>
           <Button type="submit" className="w-full">
-            Add Lead
+            Create
           </Button>
         </CardFooter>
       </form>
