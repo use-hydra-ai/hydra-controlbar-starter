@@ -1,11 +1,17 @@
 'use client';
+import { useLeadStore } from '@/store/lead-store';
 import { Briefcase, Calendar, Mail, Settings, Users } from 'lucide-react';
+import { useEffect } from 'react';
 import EmailComposer from './searchable-components/email-composer';
 import LeadList from './searchable-components/lead-list';
 import LeadNotes from './searchable-components/lead-notes';
 import MeetingScheduler from './searchable-components/meeting-scheduler';
 
 export default function CRMDashboard() {
+    const { leads, fetchLeads } = useLeadStore();
+    useEffect(() => {
+        fetchLeads();
+    }, [fetchLeads]);
   return (
     <div className="flex rounded-xl overflow-hidden h-[calc(100vh-20rem)]">
       <div className="w-16 bg-gray-800 flex flex-col items-center py-4 space-y-8">
@@ -26,21 +32,11 @@ export default function CRMDashboard() {
 
 
             <div>
-              <LeadNotes
-                lead={{
-                  id: 1,
-                  name: "John Doe",
-                  email: "john@example.com",
-                  company: "Acme Inc.",
-                  phone: "123-456-7890",
-                  status: "New",
-                  notes: [
-                    { id: 1, content: "Initial contact made", timestamp: "2024-06-15T10:00:00" },
-                    { id: 2, content: "Scheduled follow-up call", timestamp: "2024-06-16T14:30:00" },
-                  ],
-                  meetings: [],
-                }}
-              />
+              {leads.length > 0 && (
+                <LeadNotes
+                  lead={leads[0]}
+                />
+              )}
             </div>
             <div>
               <MeetingScheduler />

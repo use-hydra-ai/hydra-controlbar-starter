@@ -5,6 +5,7 @@ import { Lead } from '@/services/leads-service';
 import { Loader2 } from "lucide-react";
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
+import { useLeadStore } from '../../store/lead-store';
 
 interface LeadNotesProps {
   lead: Lead;
@@ -13,20 +14,29 @@ interface LeadNotesProps {
 export default function LeadNotes({ lead }: LeadNotesProps) {
   const [newNote, setNewNote] = useState('');
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const { updateExistingLead } = useLeadStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newNote.trim()) {
       setSubmitState('loading');
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const updatedNotes = [
+        ...lead.notes,
+        {
+          id: lead.notes.length + 1,
+          content: newNote.trim(),
+          timestamp: new Date().toISOString(),
+        }
+      ];
+
+      await updateExistingLead(lead.id, { ...lead, notes: updatedNotes });
       
       setSubmitState('success');
       setTimeout(() => {
         setSubmitState('idle');
         setNewNote('');
-      }, 2000);
+      }, 500);
     }
   };
 
