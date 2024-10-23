@@ -10,14 +10,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Loader2 } from "lucide-react";
+import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
 interface AddLeadFormProps {
   lead?: Lead;
+  onClose?: () => void;
 }
 
-export default function AddLeadForm({lead}: AddLeadFormProps) {
+export default function AddLeadForm({lead, onClose}: AddLeadFormProps) {
   const [name, setName] = useState(lead?.name || '');
   const [email, setEmail] = useState(lead?.email || '');
   const [company, setCompany] = useState(lead?.company || '');
@@ -48,6 +49,7 @@ export default function AddLeadForm({lead}: AddLeadFormProps) {
       setCompany('');
       setPhone('');
       setStatus('New');
+      onClose?.(); // Close the form after successful submission
     }, 2000);
   };
 
@@ -62,7 +64,13 @@ export default function AddLeadForm({lead}: AddLeadFormProps) {
   };
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[400px] relative">
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+      >
+        <XIcon className="w-5 h-5" />
+      </button>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Add a lead</CardTitle>
       </CardHeader>

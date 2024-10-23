@@ -1,9 +1,12 @@
+import { PlusIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getLeads, Lead, LeadStatus, updateLeadStatus } from '../../app/services/leads-service';
+import AddLeadForm from './add-lead-form';
 
 export default function LeadList() {
   const [leadsState, setLeadsState] = useState<Lead[]>([]);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+  const [showAddLeadForm, setShowAddLeadForm] = useState(false);
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -32,7 +35,21 @@ export default function LeadList() {
   };
 
   return (
-    <div className="flex flex-col gap-4 bg-white rounded-lg p-4 min-w-[400px]">
+    <div className="flex flex-col bg-white rounded-lg p-4 min-w-[400px]">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold">Leads</h2>
+        <button
+          onClick={() => setShowAddLeadForm(true)}
+          className="p-2 text-black rounded-full hover:bg-gray-200 transition-colors"
+        >
+          <PlusIcon className="w-5 h-5" />
+        </button>
+      </div>
+      {showAddLeadForm && (
+        <div className="mb-4">
+          <AddLeadForm onClose={() => setShowAddLeadForm(false)} />
+        </div>
+      )}
       {leadsState.map((lead) => (
         <div key={lead.id} className="bg-white shadow-md rounded-lg p-4 flex items-center">
           <div className="flex-1 min-w-0 mr-4">
