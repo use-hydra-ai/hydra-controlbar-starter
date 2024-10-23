@@ -11,6 +11,7 @@ export default function SearchBar() {
   const [resultComponent, setResultComponent] = useState<ReactElement | string | null>();
   const [resultText, setResultText] = useState<string | null>();
   const [error, setError] = useState<boolean>(false);
+  const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 
   useEffect(() => {
     initHydraRegistration();
@@ -22,6 +23,10 @@ export default function SearchBar() {
       } else if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
         event.preventDefault();
         setIsModalOpen(true);
+        // Focus the input after a short delay to ensure the modal is open
+        setTimeout(() => {
+          inputRef?.focus();
+        }, 0);
       }
     };
 
@@ -30,7 +35,7 @@ export default function SearchBar() {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, []);
+  }, [inputRef]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -84,6 +89,7 @@ export default function SearchBar() {
                 className="w-full pl-12 h-12 py-7 rounded-lg bg-background text-foreground focus:outline-none"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                ref={(el) => setInputRef(el)}
                 autoFocus
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800" size={20} />
