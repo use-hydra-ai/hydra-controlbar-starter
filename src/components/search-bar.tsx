@@ -12,9 +12,12 @@ export default function SearchBar() {
   const [resultText, setResultText] = useState<string | null>();
   const [error, setError] = useState<boolean>(false);
   const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
+  const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
     initHydraRegistration();
+    // Detect if the user is on a Mac
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
   }, []);
 
   useEffect(() => {
@@ -25,7 +28,6 @@ export default function SearchBar() {
       } else if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
         event.preventDefault();
         setIsModalOpen(true);
-        // Focus the input after a short delay to ensure the modal is open
         setTimeout(() => {
           inputRef?.focus();
         }, 0);
@@ -69,10 +71,15 @@ export default function SearchBar() {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full max-w-[500px] p-4 bg-white  rounded-xl mb-8 flex items-center text-gray-800 hover:bg-white/[.9] transition-colors"
+        className="w-full max-w-[500px] p-4 bg-white rounded-xl mb-8 flex items-center justify-between text-gray-800 hover:bg-white/[.9] transition-colors"
       >
-        <Search className="mr-3" size={20} />
-        <span className="text-md text-gray-400">What do you want to do?</span>
+        <div className="flex items-center">
+          <Search className="mr-3" size={20} />
+          <span className="text-md text-gray-400">What do you want to do?</span>
+        </div>
+        <div className="text-xs bg-gray-100 px-2 py-1 rounded">
+          {isMac ? '⌘ K' : 'Ctrl K'}
+        </div>
       </button>
 
       {isModalOpen && (
