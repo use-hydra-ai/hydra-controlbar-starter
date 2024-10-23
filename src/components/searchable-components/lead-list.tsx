@@ -45,8 +45,13 @@ export default function LeadList() {
           <AddLeadForm onClose={() => setShowAddLeadForm(false)} />
         </div>
       )}
-      {leads.map((lead) => (
-        <div key={lead.id} className="bg-white shadow-md rounded-lg p-4 flex items-center">
+      {leads.map((lead, index) => (
+        <div 
+          key={lead.id} 
+          className={`bg-white p-4 flex items-center ${
+            index !== leads.length - 1 ? 'border-b border-gray-200' : ''
+          }`}
+        >
           <div className="flex-1 min-w-0 mr-4">
             <h3 className="text-sm font-semibold truncate" title={lead.name}>{lead.name}</h3>
             <p className="text-sm text-gray-600 truncate" title={lead.email}>{lead.email}</p>

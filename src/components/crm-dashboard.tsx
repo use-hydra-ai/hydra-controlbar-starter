@@ -18,7 +18,7 @@ export default function CRMDashboard() {
 
       <div className="flex-1 overflow-auto">
         <div className="w-full max-w-7xl mx-auto bg-[#F0F0F0] p-4 min-h-full">
-          <h2 className="text-xl font-semibold my-6 ml-6">Example CRM Dashboard</h2>
+          <h2 className="text-xl font-semibold my-6 ml-6">Example CRM App</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div>
               <LeadList />

@@ -17,7 +17,13 @@ export const useLeadStore = create<LeadStore>((set) => ({
     },
     addNewLead: async (lead) => {
         const newLead = await addLead(lead);
-        set((state) => ({ leads: [...state.leads, newLead] }));
+        set((state) => {
+            const leadExists = state.leads.some((l) => l.id === newLead.id);
+            if (!leadExists) {
+                return { leads: [...state.leads, newLead] };
+            }
+            return state;
+        });
     },
     updateExistingLead: async (id, lead) => {
         const updatedLead = await updateLead(id, lead);
@@ -36,4 +42,3 @@ export const useLeadStore = create<LeadStore>((set) => ({
         }
     },
 }));
-

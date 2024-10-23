@@ -18,7 +18,6 @@ export const initHydraRegistration = async () => {
     }
 
     const leadSchemaString = JSON.stringify(LeadSchema.shape);
-    const leadStatusValues = LeadSchema.shape.status?._def?.values?.join(" | ") || "string";
 
     try {
         await Promise.all([

@@ -15,10 +15,12 @@ export default function SearchBar() {
 
   useEffect(() => {
     initHydraRegistration();
+  }, []);
+
+  useEffect(() => {
 
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        console.log("Escape pressed");
         setIsModalOpen(false);
       } else if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
         event.preventDefault();
