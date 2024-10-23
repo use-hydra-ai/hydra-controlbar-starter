@@ -1,4 +1,3 @@
-import { Lead, LeadStatus } from '@/app/services/leads-service';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { addLead, Lead, LeadStatus } from '@/services/leads-service';
 import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
@@ -38,10 +38,10 @@ export default function AddLeadForm({lead, onClose}: AddLeadFormProps) {
     e.preventDefault();
     setSubmitState('loading');
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await addLead({ name, email, company, phone, status, notes: [], meetings: [] });
     
     setSubmitState('success');
+    
     setTimeout(() => {
       setSubmitState('idle');
       setName('');
@@ -49,8 +49,8 @@ export default function AddLeadForm({lead, onClose}: AddLeadFormProps) {
       setCompany('');
       setPhone('');
       setStatus('New');
-      onClose?.(); // Close the form after successful submission
-    }, 2000);
+      onClose?.();
+    }, 500);
   };
 
   const getStatusColor = (status: LeadStatus): string => {

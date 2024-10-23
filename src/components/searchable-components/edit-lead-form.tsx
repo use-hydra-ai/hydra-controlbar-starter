@@ -1,4 +1,3 @@
-import { Lead, LeadStatus } from '@/app/services/leads-service';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Lead, LeadStatus } from '@/services/leads-service';
 import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 

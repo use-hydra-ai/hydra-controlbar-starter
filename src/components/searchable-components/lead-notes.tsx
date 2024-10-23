@@ -1,7 +1,7 @@
-import { Lead } from '@/app/services/leads-service';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Lead } from '@/services/leads-service';
 import { Loader2 } from "lucide-react";
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';

@@ -1,6 +1,6 @@
 import { PlusIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getLeads, Lead, LeadStatus, updateLeadStatus } from '../../app/services/leads-service';
+import { getLeads, Lead, LeadStatus, updateLeadStatus } from '../../services/leads-service';
 import AddLeadForm from './add-lead-form';
 
 export default function LeadList() {
