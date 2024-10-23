@@ -9,9 +9,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Lead, LeadStatus, updateLead } from '@/services/leads-service';
+import { Lead, LeadStatus } from '@/services/leads-service';
 import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
+import { useLeadStore } from '../../store/lead-store';
 
 interface EditLeadFormProps {
   lead: Lead;
@@ -34,10 +35,12 @@ export default function EditLeadForm({lead, onClose}: EditLeadFormProps) {
     setStatus(lead.status);
   }, [lead]);
 
+  const { updateExistingLead } = useLeadStore();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitState('loading');
-    await updateLead(lead.id, { name, email, company, phone, status, notes: lead.notes, meetings: lead.meetings });
+    await updateExistingLead(lead.id, { name, email, company, phone, status, notes: lead.notes, meetings: lead.meetings });
     setSubmitState('success');
     setTimeout(() => {
       setSubmitState('idle');

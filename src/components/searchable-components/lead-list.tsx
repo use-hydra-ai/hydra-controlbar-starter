@@ -1,26 +1,21 @@
 import { PlusIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getLeads, Lead, LeadStatus, updateLeadStatus } from '../../services/leads-service';
+import { LeadStatus } from '../../services/leads-service';
+import { useLeadStore } from '../../store/lead-store';
 import AddLeadForm from './add-lead-form';
 
 export default function LeadList() {
-  const [leadsState, setLeadsState] = useState<Lead[]>([]);
+  const { leads, fetchLeads, updateLeadStatus } = useLeadStore();
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [showAddLeadForm, setShowAddLeadForm] = useState(false);
+  
 
   useEffect(() => {
-    const fetchLeads = async () => {
-      const leads = await getLeads();
-      setLeadsState(leads);
-    };
     fetchLeads();
-  }, []);
+  }, [fetchLeads]);
 
-  const handleStatusChange = async (leadId: number, newStatus: "New" | "Contacted" | "Qualified" | "Closed") => {
-    const updatedLead = await updateLeadStatus(leadId, newStatus);
-    if (updatedLead) {
-      setLeadsState(leadsState.map(lead => lead.id === leadId ? updatedLead : lead));
-    }
+  const handleStatusChange = async (leadId: number, newStatus: LeadStatus) => {
+    await updateLeadStatus(leadId, newStatus);
     setOpenDropdown(null);
   };
 
@@ -50,7 +45,7 @@ export default function LeadList() {
           <AddLeadForm onClose={() => setShowAddLeadForm(false)} />
         </div>
       )}
-      {leadsState.map((lead) => (
+      {leads.map((lead) => (
         <div key={lead.id} className="bg-white shadow-md rounded-lg p-4 flex items-center">
           <div className="flex-1 min-w-0 mr-4">
             <h3 className="text-sm font-semibold truncate" title={lead.name}>{lead.name}</h3>

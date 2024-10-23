@@ -9,9 +9,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { addLead, Lead, LeadStatus } from '@/services/leads-service';
+import { Lead, LeadStatus } from '@/services/leads-service';
 import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
+import { useLeadStore } from '../../store/lead-store';
 
 interface AddLeadFormProps {
   lead?: Lead;
@@ -34,11 +35,13 @@ export default function AddLeadForm({lead, onClose}: AddLeadFormProps) {
     setStatus(lead?.status || 'New');
   }, [lead]);
 
+  const { addNewLead } = useLeadStore();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitState('loading');
     
-    await addLead({ name, email, company, phone, status, notes: [], meetings: [] });
+    await addNewLead({ name, email, company, phone, status, notes: [], meetings: [] });
     
     setSubmitState('success');
     
