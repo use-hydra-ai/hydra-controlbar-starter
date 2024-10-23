@@ -44,6 +44,15 @@ export async function addLead(lead: Omit<Lead, 'id'>): Promise<Lead> {
     return newLead;
 }
 
+export async function updateLead(id: number, lead: Omit<Lead, 'id'>): Promise<Lead | undefined> {
+    const leadIndex = leads.findIndex(l => l.id === id);
+    if (leadIndex !== -1) {
+        leads[leadIndex] = { ...leads[leadIndex], ...lead };
+        return leads[leadIndex];
+    }
+    return undefined;
+}
+
 export async function updateLeadStatus(id: number, status: LeadStatus): Promise<Lead | undefined> {
     const lead = await getLead(id);
     if (lead) {

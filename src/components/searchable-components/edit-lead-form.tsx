@@ -9,7 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Lead, LeadStatus } from '@/services/leads-service';
+import { Lead, LeadStatus, updateLead } from '@/services/leads-service';
 import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
@@ -37,15 +37,12 @@ export default function EditLeadForm({lead, onClose}: EditLeadFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitState('loading');
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+    await updateLead(lead.id, { name, email, company, phone, status, notes: lead.notes, meetings: lead.meetings });
     setSubmitState('success');
     setTimeout(() => {
       setSubmitState('idle');
-      onClose?.(); // Close the form after successful submission
-    }, 2000);
+      onClose?.(); 
+    }, 500);
   };
 
   const getStatusColor = (status: LeadStatus): string => {
