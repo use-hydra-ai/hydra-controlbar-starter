@@ -27,7 +27,7 @@ export default function CRMDashboard() {
           <h2 className="text-xl font-semibold my-6 ml-6">Example CRM App</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div>
-              <LeadList />
+              <LeadList leads={leads} />
             </div>
 
 

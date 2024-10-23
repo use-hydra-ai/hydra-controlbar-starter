@@ -1,18 +1,17 @@
 import { PlusIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { LeadStatus } from '../../services/leads-service';
+import { useState } from 'react';
+import { Lead, LeadStatus } from '../../services/leads-service';
 import { useLeadStore } from '../../store/lead-store';
 import AddLeadForm from './add-lead-form';
 
-export default function LeadList() {
-  const { leads, fetchLeads, updateLeadStatus } = useLeadStore();
+interface LeadListProps {
+  leads: Lead[];
+}
+
+export default function LeadList({ leads }: LeadListProps) {
+  const { updateLeadStatus } = useLeadStore();
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [showAddLeadForm, setShowAddLeadForm] = useState(false);
-  
-
-  useEffect(() => {
-    fetchLeads();
-  }, [fetchLeads]);
 
   const handleStatusChange = async (leadId: number, newStatus: LeadStatus) => {
     await updateLeadStatus(leadId, newStatus);
