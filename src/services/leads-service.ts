@@ -23,6 +23,59 @@ let leads: Lead[] = [
             { id: 1, date: "2024-06-20", time: "14:00", description: "Introductory call" },
         ],
     },
+    {
+        id: 2,
+        name: "Jane Smith",
+        email: "jane@techcorp.com",
+        company: "TechCorp",
+        phone: "987-654-3210",
+        status: "Qualified",
+        notes: [
+            { id: 3, content: "Expressed interest in our premium package", timestamp: "2024-06-18T11:15:00" },
+        ],
+        meetings: [
+            { id: 2, date: "2024-06-25", time: "10:30", description: "Product demo" },
+        ],
+    },
+    {
+        id: 3,
+        name: "Alice Johnson",
+        email: "alice@globalfirm.com",
+        company: "Global Firm LLC",
+        phone: "555-123-4567",
+        status: "Contacted",
+        notes: [
+            { id: 4, content: "Sent initial proposal", timestamp: "2024-06-19T09:45:00" },
+        ],
+        meetings: [],
+    },
+    {
+        id: 4,
+        name: "Bob Williams",
+        email: "bob@innovate.io",
+        company: "Innovate.io",
+        phone: "444-789-0123",
+        status: "New",
+        notes: [],
+        meetings: [
+            { id: 3, date: "2024-06-30", time: "15:00", description: "Initial consultation" },
+        ],
+    },
+    {
+        id: 5,
+        name: "Eva Brown",
+        email: "eva@megacorp.com",
+        company: "MegaCorp",
+        phone: "777-888-9999",
+        status: "Closed",
+        notes: [
+            { id: 5, content: "Discussing contract terms", timestamp: "2024-06-20T14:30:00" },
+            { id: 6, content: "Requested pricing breakdown", timestamp: "2024-06-21T10:00:00" },
+        ],
+        meetings: [
+            { id: 4, date: "2024-06-28", time: "11:00", description: "Contract review" },
+        ],
+    },
 ];
 
 export async function getLeads(): Promise<Lead[]> {
