@@ -1,6 +1,6 @@
 'use client';
 import { useLeadStore } from '@/store/lead-store';
-import { Briefcase, Calendar, Mail, Settings, Users } from 'lucide-react';
+import { Briefcase, Calendar, Mail, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AnalyticsDashboard from './searchable-components/analytics-dashboard';
 import ContactList from './searchable-components/contact-list';
@@ -47,7 +47,6 @@ export default function CRMDashboard() {
         <Briefcase onClick={() => setActiveTab('contacts')} className="text-gray-300 hover:text-white cursor-pointer" size={24} />
         <Calendar onClick={() => setActiveTab('tasks')} className="text-gray-300 hover:text-white cursor-pointer" size={24} />
         <Mail onClick={() => setActiveTab('analytics')} className="text-gray-300 hover:text-white cursor-pointer" size={24} />
-        <Settings className="text-gray-300 hover:text-white cursor-pointer mt-auto" size={24} />
       </div>
 
       <div className="flex-1 overflow-auto">
