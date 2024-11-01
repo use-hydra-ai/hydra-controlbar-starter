@@ -14,7 +14,7 @@ export default function LeadsTab() {
   }, [leads]);
 
   return (
-    <div className="flex">
+    <div className="flex gap-4">
       <LeadList leads={leads ?? []} onSelectLead={setSelectedLeadId} />
       {selectedLeadId && <LeadDetails leadId={selectedLeadId} />}
     </div>

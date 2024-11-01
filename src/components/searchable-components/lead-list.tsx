@@ -3,20 +3,35 @@ import { useState } from 'react';
 import { Lead, LeadStatus } from '../../services/leads-service';
 import { useLeadStore } from '../../store/lead-store';
 import AddLeadForm from './add-lead-form';
+import LeadDetails from './lead-details';
 
 interface LeadListProps {
   leads: Lead[];
+  onSelectLead: (leadId: number) => void;
 }
 
-export default function LeadList({ leads }: LeadListProps) {
+export default function LeadList({ leads, onSelectLead }: LeadListProps) {
   const { updateLeadStatus } = useLeadStore();
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [showAddLeadForm, setShowAddLeadForm] = useState(false);
+  const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
 
   const handleStatusChange = async (leadId: number, newStatus: LeadStatus) => {
     await updateLeadStatus(leadId, newStatus);
     setOpenDropdown(null);
   };
+
+  const handleLeadClick = (leadId: number) => {
+    if (onSelectLead) {
+      onSelectLead(leadId);
+    } else {
+      setSelectedLeadId(leadId);
+    }
+  };
+
+  if (selectedLeadId !== null) {
+    return <LeadDetails leadId={selectedLeadId} />;
+  }
 
   const getStatusColor = (status: string): { bg: string; text: string } => {
     switch (status) {
@@ -49,7 +64,8 @@ export default function LeadList({ leads }: LeadListProps) {
           key={lead.id} 
           className={`bg-white p-4 flex items-center ${
             index !== leads.length - 1 ? 'border-b border-gray-200' : ''
-          }`}
+          } hover:bg-gray-100 transition-colors cursor-pointer`}
+          onClick={() => handleLeadClick(lead.id)}
         >
           <div className="flex-1 min-w-0 mr-4">
             <h3 className="text-sm font-semibold truncate" title={lead.name}>{lead.name}</h3>
