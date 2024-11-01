@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Meeting } from '@/services/leads-service';
+import { DateTime } from 'luxon';
 import { useState } from 'react';
 
 interface MeetingDetailsProps {
@@ -10,6 +11,9 @@ interface MeetingDetailsProps {
 
 export default function MeetingDetails({ meeting, onClose }: MeetingDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
+
+  const formattedDate = DateTime.fromISO(meeting.date).toFormat('EEE, MMM dd');
+  const formattedTime = DateTime.fromISO(meeting.time).toFormat('h:mm a');
 
   return (
     <Card className="w-full min-w-[400px] max-w-[800px]">
@@ -26,11 +30,15 @@ export default function MeetingDetails({ meeting, onClose }: MeetingDetailsProps
           <>
             <div>
               <h3 className="font-semibold">Date</h3>
-              <p>{meeting.date}</p>
+              <p>{formattedDate}</p>
             </div>
             <div>
               <h3 className="font-semibold">Time</h3>
-              <p>{meeting.time}</p>
+              <p>{formattedTime}</p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Details</h3>
+              <p>{meeting.description}</p>
             </div>
           </>
         )}
