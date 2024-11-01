@@ -1,12 +1,18 @@
 'use client';
+import { useLeadStore } from '@/store/lead-store';
 import { Calendar, Mail, Users } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LeadsTab from './leads-tab';
 import MeetingsTab from './meetings-tab';
 import MessagesTab from './messages-tab';
 
 export default function CRMDashboard() {
   const [activeTab, setActiveTab] = useState('leads');
+  const { fetchLeads } = useLeadStore();
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
 
   const renderActiveTab = () => {
     switch (activeTab) {
