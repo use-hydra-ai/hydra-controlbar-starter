@@ -1,6 +1,5 @@
-import CRMDashboard from "@/components/crm-dashboard";
+import CRMDashboard from "../components/dashboard/crm-dashboard";
 import SearchBar from "../components/search-bar";
-
 export default function Home() {
   return (
     <div className="min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)] bg-[#2E3645]">
