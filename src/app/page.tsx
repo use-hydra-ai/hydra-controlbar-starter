@@ -1,5 +1,6 @@
-import CRMDashboard from "../components/dashboard/crm-dashboard";
-import SearchBar from "../components/search-bar";
+import CRMDashboard from "@/components/crm-dashboard";
+import ControlBar from "../components/control-bar";
+
 export default function Home() {
   return (
     <div className="min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)] bg-[#2E3645]">
@@ -11,7 +12,7 @@ export default function Home() {
           <h2 className="max-w-xl text-xl mb-4">Go beyond search, and let your users interact with your app using natural language.</h2>
         </div>
         <div className="w-full max-w-7xl flex flex-col gap-4 justify-center items-center">
-          <SearchBar />
+          <ControlBar />
         </div>
         <CRMDashboard />
       </main>
