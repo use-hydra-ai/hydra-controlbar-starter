@@ -1,9 +1,9 @@
 "use client";
-import { Search } from "lucide-react";
+import { Navigation } from "lucide-react";
 import { FormEvent, ReactElement, useEffect, useState } from "react";
 import hydra, { initHydraRegistration } from "../hydra-client";
 
-export default function SearchBar() {
+export default function ControlBar() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,7 +16,6 @@ export default function SearchBar() {
 
   useEffect(() => {
     initHydraRegistration();
-    // Detect if the user is on a Mac
     setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
   }, []);
 
@@ -74,7 +73,7 @@ export default function SearchBar() {
         className="w-full max-w-[500px] p-4 bg-white rounded-xl mb-8 flex items-center justify-between text-gray-800 hover:bg-white/[.9] transition-colors"
       >
         <div className="flex items-center">
-          <Search className="mr-3" size={20} />
+          <Navigation className="mr-3" size={20} />
           <span className="text-md text-gray-400">What do you want to do?</span>
         </div>
         <div className="text-xs bg-gray-100 px-2 py-1 rounded">
@@ -101,7 +100,7 @@ export default function SearchBar() {
                 ref={(el) => setInputRef(el)}
                 autoFocus
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800" size={20} />
+              <Navigation className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800" size={20} />
             </form>
             <div className="w-full p-8 bg-background border-black/[.08] dark:border-white/[.145] border rounded-lg mt-4">
               {(resultComponent || resultText || isLoading) ? (
