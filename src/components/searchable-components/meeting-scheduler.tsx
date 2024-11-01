@@ -3,17 +3,19 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
+import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
 interface MeetingSchedulerProps {
   initialDateTimeISO?: string;
   initialDescription?: string;
+  onClose?: () => void;
 }
 
 export default function MeetingScheduler({ 
   initialDateTimeISO: initialDateTime = '', 
-  initialDescription = '' 
+  initialDescription = '',
+  onClose
 }: MeetingSchedulerProps) {
   const [dateTime, setDateTime] = useState(initialDateTime);
   const [date, setDate] = useState('');
@@ -43,7 +45,6 @@ export default function MeetingScheduler({
     if (dateTime && description) {
       setSubmitState('loading');
       
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       setSubmitState('success');
@@ -53,12 +54,18 @@ export default function MeetingScheduler({
         setDate('');
         setTime('');
         setDescription('');
-      }, 2000);
+      }, 500);
     }
   };
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[400px] relative">
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+      >
+        <XIcon className="w-5 h-5" />
+      </button>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Schedule Meeting</CardTitle>
       </CardHeader>
