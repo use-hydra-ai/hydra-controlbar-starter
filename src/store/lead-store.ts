@@ -45,13 +45,8 @@ export const useLeadStore = create<LeadStore>((set) => ({
     addNewMeeting: async (leadId, meeting) => {
         const newMeeting = await addMeeting(leadId, meeting);
         if (newMeeting) {
-            set((state) => ({
-                leads: state.leads.map((l) =>
-                    l.id === leadId
-                        ? { ...l, meetings: [...l.meetings, newMeeting] }
-                        : l
-                ),
-            }));
+            const updatedLeads = await getLeads();
+            set({ leads: updatedLeads });
         }
     },
 }));

@@ -48,7 +48,7 @@ export default function MeetingsList({ meetings, onSelectMeeting }: MeetingsList
       ) : (
         meetings.map((meeting, index) => (
           <div
-            key={meeting.id}
+            key={`${meeting.id}-${meeting.leadId}`}
             className={`bg-white p-4 flex items-center ${
               index !== meetings.length - 1 ? 'border-b border-gray-200' : ''
             } hover:bg-gray-100 transition-colors cursor-pointer`}
