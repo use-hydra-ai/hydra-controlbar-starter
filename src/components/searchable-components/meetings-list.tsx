@@ -1,5 +1,6 @@
 import { Meeting } from '@/services/leads-service';
 import { PlusIcon } from 'lucide-react';
+import { DateTime } from 'luxon';
 import { useState } from 'react';
 import MeetingDetails from './meeting-details';
 import MeetingScheduler from './meeting-scheduler';
@@ -19,6 +20,11 @@ export default function MeetingsList({ meetings, onSelectMeeting }: MeetingsList
     } else {
       setSelectedMeeting(meeting);
     }
+  };
+
+  const formatDateTime = (date: string, time: string) => {
+    const dateTime = DateTime.fromFormat(`${date} ${time}`, 'yyyy-MM-dd HH:mm');
+    return dateTime.toFormat("ccc, MMM d 'at' h:mma");
   };
 
   return (
@@ -53,7 +59,7 @@ export default function MeetingsList({ meetings, onSelectMeeting }: MeetingsList
                 {meeting.description}
               </h3>
               <p className="text-sm text-gray-600 truncate">
-                {meeting.date} at {meeting.time}
+                {formatDateTime(meeting.date, meeting.time)}
               </p>
             </div>
           </div>
