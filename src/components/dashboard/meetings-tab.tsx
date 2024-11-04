@@ -21,7 +21,7 @@ export default function MeetingsTab() {
     <div className="flex gap-4">
       <MeetingsList meetings={meetings} onSelectMeeting={setSelectedMeeting} />
       {selectedMeeting && (
-        <MeetingDetails meeting={selectedMeeting} onClose={() => setSelectedMeeting(null)} />
+        <MeetingDetails meeting={selectedMeeting} leadId={selectedMeeting.leadId} onClose={() => setSelectedMeeting(null)} />
       )}
     </div>
   );

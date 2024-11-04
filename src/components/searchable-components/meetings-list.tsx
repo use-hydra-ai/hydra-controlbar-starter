@@ -44,7 +44,7 @@ export default function MeetingsList({ meetings, onSelectMeeting }: MeetingsList
         </div>
       )}
       {selectedMeeting ? (
-        <MeetingDetails meeting={selectedMeeting} onClose={() => setSelectedMeeting(null)} />
+        <MeetingDetails meeting={selectedMeeting} leadId={selectedMeeting.leadId} onClose={() => setSelectedMeeting(null)} />
       ) : (
         meetings.map((meeting, index) => (
           <div

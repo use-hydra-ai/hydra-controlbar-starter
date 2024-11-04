@@ -25,6 +25,7 @@ export default function LeadNotes({ lead }: LeadNotesProps) {
         ...lead.notes,
         {
           id: lead.notes.length + 1,
+          leadId: lead.id,
           content: newNote.trim(),
           timestamp: new Date().toISOString(),
         }

@@ -16,11 +16,11 @@ let leads: Lead[] = [
         phone: "123-456-7890",
         status: "New",
         notes: [
-            { id: 1, content: "Initial contact made", timestamp: "2024-06-15T10:00:00" },
-            { id: 2, content: "Scheduled follow-up call", timestamp: "2024-06-16T14:30:00" },
+            { id: 1, leadId: 1, content: "Initial contact made", timestamp: "2024-06-15T10:00:00" },
+            { id: 2, leadId: 1, content: "Scheduled follow-up call", timestamp: "2024-06-16T14:30:00" },
         ],
         meetings: [
-            { id: 1, date: "2024-06-20", time: "14:00", description: "Introductory call" },
+            { id: 1, leadId: 1, date: "2024-06-20", time: "14:00", description: "Introductory call" },
         ],
     },
     {
@@ -31,10 +31,10 @@ let leads: Lead[] = [
         phone: "987-654-3210",
         status: "Qualified",
         notes: [
-            { id: 3, content: "Expressed interest in our premium package", timestamp: "2024-06-18T11:15:00" },
+            { id: 3, leadId: 2, content: "Expressed interest in our premium package", timestamp: "2024-06-18T11:15:00" },
         ],
         meetings: [
-            { id: 2, date: "2024-06-25", time: "10:30", description: "Product demo" },
+            { id: 2, leadId: 2, date: "2024-06-25", time: "10:30", description: "Product demo" },
         ],
     },
     {
@@ -45,7 +45,7 @@ let leads: Lead[] = [
         phone: "555-123-4567",
         status: "Contacted",
         notes: [
-            { id: 4, content: "Sent initial proposal", timestamp: "2024-06-19T09:45:00" },
+            { id: 4, leadId: 3, content: "Sent initial proposal", timestamp: "2024-06-19T09:45:00" },
         ],
         meetings: [],
     },
@@ -58,7 +58,7 @@ let leads: Lead[] = [
         status: "New",
         notes: [],
         meetings: [
-            { id: 3, date: "2024-06-30", time: "15:00", description: "Initial consultation" },
+            { id: 3, leadId: 4, date: "2024-06-30", time: "15:00", description: "Initial consultation" },
         ],
     },
     {
@@ -69,11 +69,11 @@ let leads: Lead[] = [
         phone: "777-888-9999",
         status: "Closed",
         notes: [
-            { id: 5, content: "Discussing contract terms", timestamp: "2024-06-20T14:30:00" },
-            { id: 6, content: "Requested pricing breakdown", timestamp: "2024-06-21T10:00:00" },
+            { id: 5, leadId: 5, content: "Discussing contract terms", timestamp: "2024-06-20T14:30:00" },
+            { id: 6, leadId: 5, content: "Requested pricing breakdown", timestamp: "2024-06-21T10:00:00" },
         ],
         meetings: [
-            { id: 4, date: "2024-06-28", time: "11:00", description: "Contract review" },
+            { id: 4, leadId: 5, date: "2024-06-28", time: "11:00", description: "Contract review" },
         ],
     },
 ];
@@ -119,6 +119,7 @@ export async function addNote(leadId: number, content: string): Promise<Note | u
     if (lead) {
         const newNote: Note = {
             id: lead.notes.length + 1,
+            leadId,
             content,
             timestamp: new Date().toISOString(),
         };
@@ -128,12 +129,13 @@ export async function addNote(leadId: number, content: string): Promise<Note | u
     return undefined;
 }
 
-export async function addMeeting(leadId: number, meeting: Omit<Meeting, 'id'>): Promise<Meeting | undefined> {
+export async function addMeeting(leadId: number, meeting: Omit<Meeting, 'id' | 'leadId'>): Promise<Meeting | undefined> {
     const lead = await getLead(leadId);
     if (lead) {
         const newMeeting: Meeting = {
             ...meeting,
             id: lead.meetings.length + 1,
+            leadId,
         };
         lead.meetings.push(newMeeting);
         return newMeeting;

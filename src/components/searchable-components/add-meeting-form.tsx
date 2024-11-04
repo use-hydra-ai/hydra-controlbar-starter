@@ -11,16 +11,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 interface AddMeetingFormProps {
   initialDateTimeISO?: string;
   initialDescription?: string;
+  initialLeadId?: string;
   onClose?: () => void;
 }
 
 export default function AddMeetingForm({ 
   initialDateTimeISO: initialDateTime = '', 
   initialDescription = '',
+  initialLeadId = '',
   onClose
 }: AddMeetingFormProps) {
   const { leads, addNewMeeting } = useLeadStore();
-  const [selectedLeadId, setSelectedLeadId] = useState<string>('');
+  const [selectedLeadId, setSelectedLeadId] = useState<string>(initialLeadId);
   const [dateTime, setDateTime] = useState(initialDateTime);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -52,6 +54,7 @@ export default function AddMeetingForm({
       try {
         const [date, time] = dateTime.split('T');
         await addNewMeeting(parseInt(selectedLeadId), {
+          leadId: parseInt(selectedLeadId),
           date,
           time: time.slice(0, 5),
           description

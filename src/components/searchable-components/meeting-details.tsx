@@ -3,13 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Meeting } from '@/services/leads-service';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
+import EditMeetingForm from './edit-meeting-form';
 
 interface MeetingDetailsProps {
   meeting: Meeting;
+  leadId: number;
   onClose: () => void;
 }
 
-export default function MeetingDetails({ meeting, onClose }: MeetingDetailsProps) {
+export default function MeetingDetails({ meeting, leadId, onClose }: MeetingDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const formattedDate = DateTime.fromISO(meeting.date).toFormat('EEE, MMM dd');
@@ -25,7 +27,11 @@ export default function MeetingDetails({ meeting, onClose }: MeetingDetailsProps
       </CardHeader>
       <CardContent className="space-y-6">
         {isEditing ? (
-          <div>Edit form goes here</div>
+          <EditMeetingForm 
+            meeting={meeting} 
+            leadId={leadId}
+            onClose={() => setIsEditing(false)} 
+          />
         ) : (
           <>
             <div>
