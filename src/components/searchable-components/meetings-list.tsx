@@ -2,8 +2,8 @@ import { Meeting } from '@/services/leads-service';
 import { PlusIcon } from 'lucide-react';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
+import AddMeetingForm from './add-meeting-form';
 import MeetingDetails from './meeting-details';
-import MeetingScheduler from './meeting-scheduler';
 
 interface MeetingsListProps {
   meetings: Meeting[];
@@ -40,7 +40,7 @@ export default function MeetingsList({ meetings, onSelectMeeting }: MeetingsList
       </div>
       {showMeetingScheduler && (
         <div className="mb-4">
-          <MeetingScheduler onClose={() => setShowMeetingScheduler(false)} />
+          <AddMeetingForm onClose={() => setShowMeetingScheduler(false)} />
         </div>
       )}
       {selectedMeeting ? (

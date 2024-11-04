@@ -1,12 +1,12 @@
 import { HydraClient } from "hydra-ai";
 import { ComponentContextTool } from "hydra-ai/dist/hydra-ai/model/component-metadata";
 import AddLeadForm from "./components/searchable-components/add-lead-form";
+import AddMeetingForm from "./components/searchable-components/add-meeting-form";
 import EditLeadForm from "./components/searchable-components/edit-lead-form";
 import EmailComposer from "./components/searchable-components/email-composer";
 import LeadDetails from "./components/searchable-components/lead-details";
 import LeadList from "./components/searchable-components/lead-list";
 import LeadNotes from "./components/searchable-components/lead-notes";
-import MeetingScheduler from "./components/searchable-components/meeting-scheduler";
 import { LeadSchema } from "./schemas/lead";
 import { getLeads } from "./services/leads-service";
 
@@ -49,7 +49,7 @@ export const initHydraRegistration = async () => {
             hydra.registerComponent("lead-details", "A component for viewing details of a lead. These details include things like name, email, phone, status, and notes.", LeadDetails,
                 { leadId: "number" },
                 [getLeadsTool]
-            ),  
+            ),
             hydra.registerComponent("edit-lead-form", "A form for editing existing leads", EditLeadForm,
                 { lead: leadSchemaString },
                 [getLeadsTool]
@@ -58,7 +58,7 @@ export const initHydraRegistration = async () => {
                 { lead: leadSchemaString },
                 [getLeadsTool]
             ),
-            hydra.registerComponent("meeting-scheduler", "A component for scheduling meetings with leads", MeetingScheduler,
+            hydra.registerComponent("meeting-scheduler", "A component for scheduling meetings with leads", AddMeetingForm,
                 {
                     initialDateTimeISO: "string in ISO format",
                     initialDescription: "string"

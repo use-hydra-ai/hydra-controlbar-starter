@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Lead, addLead, getLeads, updateLead, updateLeadStatus } from '../services/leads-service';
+import { Lead, Meeting, addLead, addMeeting, getLeads, updateLead, updateLeadStatus } from '../services/leads-service';
 
 interface LeadStore {
     leads: Lead[];
@@ -7,6 +7,7 @@ interface LeadStore {
     addNewLead: (lead: Omit<Lead, 'id'>) => Promise<void>;
     updateExistingLead: (id: number, lead: Omit<Lead, 'id'>) => Promise<void>;
     updateLeadStatus: (id: number, status: Lead['status']) => Promise<void>;
+    addNewMeeting: (leadId: number, meeting: Omit<Meeting, 'id'>) => Promise<void>;
 }
 
 export const useLeadStore = create<LeadStore>((set) => ({
@@ -38,6 +39,18 @@ export const useLeadStore = create<LeadStore>((set) => ({
         if (updatedLead) {
             set((state) => ({
                 leads: state.leads.map((l) => (l.id === id ? updatedLead : l)),
+            }));
+        }
+    },
+    addNewMeeting: async (leadId, meeting) => {
+        const newMeeting = await addMeeting(leadId, meeting);
+        if (newMeeting) {
+            set((state) => ({
+                leads: state.leads.map((l) =>
+                    l.id === leadId
+                        ? { ...l, meetings: [...l.meetings, newMeeting] }
+                        : l
+                ),
             }));
         }
     },

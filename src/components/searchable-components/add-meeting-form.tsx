@@ -3,20 +3,24 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useLeadStore } from "@/store/lead-store";
 import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-interface MeetingSchedulerProps {
+interface AddMeetingFormProps {
   initialDateTimeISO?: string;
   initialDescription?: string;
   onClose?: () => void;
 }
 
-export default function MeetingScheduler({ 
+export default function AddMeetingForm({ 
   initialDateTimeISO: initialDateTime = '', 
   initialDescription = '',
   onClose
-}: MeetingSchedulerProps) {
+}: AddMeetingFormProps) {
+  const { leads, addNewMeeting } = useLeadStore();
+  const [selectedLeadId, setSelectedLeadId] = useState<string>('');
   const [dateTime, setDateTime] = useState(initialDateTime);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -42,19 +46,31 @@ export default function MeetingScheduler({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (dateTime && description) {
+    if (dateTime && description && selectedLeadId) {
       setSubmitState('loading');
       
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setSubmitState('success');
-      setTimeout(() => {
+      try {
+        const [date, time] = dateTime.split('T');
+        await addNewMeeting(parseInt(selectedLeadId), {
+          date,
+          time: time.slice(0, 5),
+          description
+        });
+        
+        setSubmitState('success');
+        setTimeout(() => {
+          setSubmitState('idle');
+          setDateTime('');
+          setDate('');
+          setTime('');
+          setDescription('');
+          setSelectedLeadId('');
+          onClose?.();
+        }, 500);
+      } catch (error) {
+        console.error('Failed to add meeting:', error);
         setSubmitState('idle');
-        setDateTime('');
-        setDate('');
-        setTime('');
-        setDescription('');
-      }, 500);
+      }
     }
   };
 
@@ -63,8 +79,8 @@ export default function MeetingScheduler({
       {onClose && (
         <button
           onClick={onClose}
-        className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
-      >
+          className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+        >
           <XIcon className="w-5 h-5" />
         </button>
       )}
@@ -73,6 +89,21 @@ export default function MeetingScheduler({
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
+          <div className="space-y-1">
+            <Label htmlFor="lead">Lead</Label>
+            <Select value={selectedLeadId} onValueChange={setSelectedLeadId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a lead" />
+              </SelectTrigger>
+              <SelectContent>
+                {leads.map((lead) => (
+                  <SelectItem key={lead.id} value={lead.id.toString()}>
+                    {lead.name} - {lead.company}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div className="space-y-1">
             <Label htmlFor="date">Date</Label>
             <Input
@@ -117,7 +148,7 @@ export default function MeetingScheduler({
               submitState === 'loading' ? 'w-12 p-0' : 
               submitState === 'success' ? 'w-24 bg-green-500 hover:bg-green-600' : ''
             }`}
-            disabled={submitState !== 'idle'}
+            disabled={submitState !== 'idle' || !selectedLeadId}
           >
             {submitState === 'idle' && 'Schedule Meeting'}
             {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
