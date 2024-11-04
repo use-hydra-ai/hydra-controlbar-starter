@@ -60,12 +60,14 @@ export default function MeetingScheduler({
 
   return (
     <Card className="w-[400px] relative">
-      <button
-        onClick={onClose}
+      {onClose && (
+        <button
+          onClick={onClose}
         className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
       >
-        <XIcon className="w-5 h-5" />
-      </button>
+          <XIcon className="w-5 h-5" />
+        </button>
+      )}
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Schedule Meeting</CardTitle>
       </CardHeader>

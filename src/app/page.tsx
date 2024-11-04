@@ -1,4 +1,4 @@
-import CRMDashboard from "@/components/crm-dashboard";
+import CRMDashboard from "@/components/dashboard/crm-dashboard";
 import ControlBar from "../components/control-bar";
 
 export default function Home() {
