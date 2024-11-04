@@ -7,7 +7,7 @@ import LeadDetails from './lead-details';
 
 interface LeadListProps {
   leads: Lead[];
-  onSelectLead: (leadId: number) => void;
+  onSelectLead?: (leadId: number) => void;
 }
 
 export default function LeadList({ leads, onSelectLead }: LeadListProps) {
