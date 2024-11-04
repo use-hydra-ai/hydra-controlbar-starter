@@ -7,6 +7,15 @@ export type LeadStatus = z.infer<typeof LeadStatusEnum>;
 export type Note = z.infer<typeof LeadSchema>["notes"][number];
 export type Meeting = z.infer<typeof LeadSchema>["meetings"][number];
 
+export interface Message {
+    id: number;
+    leadId: number;
+    subject: string;
+    content: string;
+    timestamp: string;
+    status: 'draft' | 'sent';
+}
+
 let leads: Lead[] = [
     {
         id: 1,
