@@ -60,6 +60,7 @@ export default function ControlBar() {
       }
     } catch (err) {
       setError(true);
+      console.error(err);
       setResultComponent("Something went wrong");
     } finally {
       setIsLoading(false);
@@ -131,7 +132,7 @@ export default function ControlBar() {
               ) : (
                 <>
                   <p className="text-sm text-gray-800 dark:text-gray-800 mb-4">
-                    Describe what you want to do and I'll find the feature for you and help you use it.
+                    Describe what you want to do and I&apos;ll find the feature for you and help you use it.
                   </p>
                   
                 </>

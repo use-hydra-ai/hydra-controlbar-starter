@@ -8,7 +8,7 @@ export type Note = z.infer<typeof LeadSchema>["notes"][number];
 export type Meeting = z.infer<typeof LeadSchema>["meetings"][number];
 export type Message = z.infer<typeof MessageSchema>;
 
-let leads: Lead[] = [
+const leads: Lead[] = [
     {
         id: 1,
         name: "John Doe",

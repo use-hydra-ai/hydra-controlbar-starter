@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export type Message = z.infer<typeof MessageSchema>;
 
-let messages: Message[] = [
+const messages: Message[] = [
     {
         id: 1,
         email: "john@example.com",

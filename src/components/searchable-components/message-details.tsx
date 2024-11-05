@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Message } from '@/services/leads-service';
+import { XIcon } from 'lucide-react';
 import { DateTime } from 'luxon';
+import { Button } from '../ui/button';
 
 interface MessageDetailsProps {
   message: Message;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function MessageDetails({ message, onClose }: MessageDetailsProps) {
@@ -12,6 +14,11 @@ export default function MessageDetails({ message, onClose }: MessageDetailsProps
 
   return (
     <Card className="w-full min-w-[400px] max-w-[800px]">
+      {onClose && (
+        <Button onClick={onClose} variant="ghost" className="absolute top-2 right-2">
+          <XIcon className="w-4 h-4" />
+        </Button>
+      )}
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle className="text-2xl font-semibold">{message.subject}</CardTitle>

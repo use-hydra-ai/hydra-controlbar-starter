@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Meeting } from '@/services/leads-service';
 import { useLeadStore } from '@/store/lead-store';
+import { XIcon } from 'lucide-react';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import EditMeetingForm from './edit-meeting-form';
@@ -9,7 +10,7 @@ import EditMeetingForm from './edit-meeting-form';
 interface MeetingDetailsProps {
   meeting: Meeting;
   leadId: number;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function MeetingDetails({ meeting, leadId, onClose }: MeetingDetailsProps) {
@@ -22,6 +23,11 @@ export default function MeetingDetails({ meeting, leadId, onClose }: MeetingDeta
 
   return (
     <Card className="w-full min-w-[400px] max-w-[800px]">
+      {onClose && (
+        <Button onClick={onClose} variant="ghost" className="absolute top-2 right-2">
+          <XIcon className="w-4 h-4" />
+        </Button>
+      )}
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle className="text-2xl font-semibold">{meeting.description}</CardTitle>
