@@ -9,10 +9,11 @@ import { useLeadStore } from '../../store/lead-store';
 
 interface LeadNotesProps {
   lead: Lead;
+  initialNote?: string;
 }
 
-export default function LeadNotes({ lead }: LeadNotesProps) {
-  const [newNote, setNewNote] = useState('');
+export default function LeadNotes({ lead, initialNote = '' }: LeadNotesProps) {
+  const [newNote, setNewNote] = useState(initialNote);
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
   const { updateExistingLead } = useLeadStore();
 
@@ -25,6 +26,7 @@ export default function LeadNotes({ lead }: LeadNotesProps) {
         ...lead.notes,
         {
           id: lead.notes.length + 1,
+          leadId: lead.id,
           content: newNote.trim(),
           timestamp: new Date().toISOString(),
         }

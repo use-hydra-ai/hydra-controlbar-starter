@@ -29,7 +29,7 @@ export default function LeadDetails({ leadId }: LeadDetailsProps) {
   }
 
   return (
-    <Card className="w-full max-w-[800px]">
+    <Card className="w-full min-w-[400px] max-w-[800px]">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-2xl font-semibold">{lead.name}</CardTitle>
         <Button onClick={() => setIsEditing(!isEditing)}>

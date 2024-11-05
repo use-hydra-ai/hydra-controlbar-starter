@@ -3,64 +3,65 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
+import { Meeting } from "@/services/leads-service";
+import { useLeadStore } from "@/store/lead-store";
+import { Loader2, XIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
-interface MeetingSchedulerProps {
-  initialDateTimeISO?: string;
-  initialDescription?: string;
+interface EditMeetingFormProps {
+  meeting: Meeting;
+  leadId: number;
+  onClose?: () => void;
 }
 
-export default function MeetingScheduler({ 
-  initialDateTimeISO: initialDateTime = '', 
-  initialDescription = '' 
-}: MeetingSchedulerProps) {
-  const [dateTime, setDateTime] = useState(initialDateTime);
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [description, setDescription] = useState(initialDescription);
+export default function EditMeetingForm({ meeting, leadId, onClose }: EditMeetingFormProps) {
+  const [date, setDate] = useState(meeting.date);
+  const [time, setTime] = useState(meeting.time);
+  const [description, setDescription] = useState(meeting.description);
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
 
   useEffect(() => {
-    if (initialDateTime) {
-      const dateObj = new Date(initialDateTime);
-      setDate(dateObj.toISOString().split('T')[0]);
-      setTime(dateObj.toTimeString().slice(0, 5));
-    }
-  }, [initialDateTime]);
+    setDate(meeting.date);
+    setTime(meeting.time);
+    setDescription(meeting.description);
+  }, [meeting]);
 
-  const handleDateTimeChange = (newDate: string, newTime: string) => {
-    if (newDate && newTime) {
-      const isoString = `${newDate}T${newTime}:00`;
-      setDateTime(isoString);
-    } else {
-      setDateTime('');
-    }
-  };
+  const { updateExistingLead, leads } = useLeadStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (dateTime && description) {
-      setSubmitState('loading');
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setSubmitState('success');
-      setTimeout(() => {
-        setSubmitState('idle');
-        setDateTime('');
-        setDate('');
-        setTime('');
-        setDescription('');
-      }, 2000);
-    }
+    setSubmitState('loading');
+
+    const lead = leads.find(l => l.id === leadId);
+    if (!lead) return;
+
+    const updatedMeetings = lead.meetings.map(m => 
+      m.id === meeting.id 
+        ? { ...m, date, time, description }
+        : m
+    );
+
+    await updateExistingLead(leadId, { ...lead, meetings: updatedMeetings });
+    
+    setSubmitState('success');
+    setTimeout(() => {
+      setSubmitState('idle');
+      onClose?.();
+    }, 500);
   };
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[400px] relative">
+      {onClose && (
+        <button
+          onClick={onClose}
+        className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+      >
+          <XIcon className="w-5 h-5" />
+        </button>
+      )}
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Schedule Meeting</CardTitle>
+        <CardTitle className="text-lg font-semibold">Edit meeting</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
@@ -70,10 +71,7 @@ export default function MeetingScheduler({
               type="date"
               id="date"
               value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-                handleDateTimeChange(e.target.value, time);
-              }}
+              onChange={(e) => setDate(e.target.value)}
               required
             />
           </div>
@@ -83,10 +81,7 @@ export default function MeetingScheduler({
               type="time"
               id="time"
               value={time}
-              onChange={(e) => {
-                setTime(e.target.value);
-                handleDateTimeChange(date, e.target.value);
-              }}
+              onChange={(e) => setTime(e.target.value)}
               required
             />
           </div>
@@ -110,12 +105,12 @@ export default function MeetingScheduler({
             }`}
             disabled={submitState !== 'idle'}
           >
-            {submitState === 'idle' && 'Schedule Meeting'}
+            {submitState === 'idle' && 'Update'}
             {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
-            {submitState === 'success' && 'Scheduled!'}
+            {submitState === 'success' && 'Updated!'}
           </Button>
         </CardFooter>
       </form>
     </Card>
   );
-}
+} 

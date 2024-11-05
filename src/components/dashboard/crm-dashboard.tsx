@@ -2,34 +2,26 @@
 import { useLeadStore } from '@/store/lead-store';
 import { Calendar, Mail, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import EmailComposer from './searchable-components/email-composer';
-import LeadList from './searchable-components/lead-list';
-import LeadNotes from './searchable-components/lead-notes';
-import MeetingScheduler from './searchable-components/meeting-scheduler';
+import LeadsTab from './leads-tab';
+import MeetingsTab from './meetings-tab';
+import MessagesTab from './messages-tab';
 
 export default function CRMDashboard() {
   const [activeTab, setActiveTab] = useState('leads');
-  const { leads, fetchLeads } = useLeadStore();
+  const { fetchLeads } = useLeadStore();
+
   useEffect(() => {
     fetchLeads();
   }, [fetchLeads]);
 
-
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'leads':
-        return (
-          <>
-            <LeadList leads={leads ?? []}/>
-            {leads?.[0] && <LeadNotes lead={leads[0]} />}
-          </>
-        );
+        return <LeadsTab />;
       case 'meetings':
-        return  <MeetingScheduler />;
+        return <MeetingsTab />;
       case 'mail':
-        return (
-            <EmailComposer email={'email@example.com'} initialSubject="Hello" initialMessage="Hello, how are you?" />
-        );
+        return <MessagesTab />;
       default:
         return null;
     }

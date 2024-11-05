@@ -3,69 +3,93 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
-import React, { useState } from 'react';
+import { useMessageStore } from "@/store/message-store";
+import { Loader2, XIcon } from "lucide-react";
+import { useState } from 'react';
 
-interface EmailComposerProps {
-  email: string;
-  initialSubject?: string;
-  initialMessage?: string;
+interface AddMessageFormProps {
+  onClose?: () => void;
 }
 
-export default function EmailComposer({ email, initialSubject = '', initialMessage = '' }: EmailComposerProps) {
+interface AddMessageFormProps {
+  onClose?: () => void;
+  initialEmail?: string;
+  initialSubject?: string;
+  initialContent?: string;
+}
+
+export default function AddMessageForm({ 
+  initialEmail = '', 
+  initialSubject = '', 
+  initialContent = '', 
+  onClose, 
+}: AddMessageFormProps) {
+  const [email, setEmail] = useState(initialEmail);
   const [subject, setSubject] = useState(initialSubject);
-  const [body, setBody] = useState(initialMessage);
+  const [content, setContent] = useState(initialContent);
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  const { addNewMessage } = useMessageStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (subject && body) {
-      setSubmitState('loading');
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setSubmitState('success');
-      setTimeout(() => {
-        setSubmitState('idle');
-        setSubject('');
-        setBody('');
-      }, 2000);
-    }
+    setSubmitState('loading');
+
+    await addNewMessage({
+      email,
+      subject,
+      content,
+      timestamp: new Date().toISOString(),
+    });
+
+    setSubmitState('success');
+    setTimeout(() => {
+      setSubmitState('idle');
+      onClose?.();
+    }, 500);
   };
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-full relative">
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+      >
+        <XIcon className="w-5 h-5" />
+      </button>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Compose Email</CardTitle>
+        <CardTitle className="text-lg font-semibold">New Message</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           <div className="space-y-1">
-            <Label htmlFor="to">To</Label>
+            <Label htmlFor="email">To</Label>
             <Input
+              id="email"
               type="email"
-              id="to"
               value={email}
-              className="bg-muted"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="recipient@example.com"
+              required
             />
           </div>
           <div className="space-y-1">
             <Label htmlFor="subject">Subject</Label>
             <Input
-              type="text"
               id="subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
+              placeholder="Message subject"
               required
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="body">Message</Label>
+            <Label htmlFor="content">Message</Label>
             <Textarea
-              id="body"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Type your message here..."
               rows={5}
               required
             />
@@ -80,12 +104,12 @@ export default function EmailComposer({ email, initialSubject = '', initialMessa
             }`}
             disabled={submitState !== 'idle'}
           >
-            {submitState === 'idle' && 'Send Email'}
+            {submitState === 'idle' && 'Save Draft'}
             {submitState === 'loading' && <Loader2 className="h-5 w-5 animate-spin" />}
-            {submitState === 'success' && 'Sent!'}
+            {submitState === 'success' && 'Saved!'}
           </Button>
         </CardFooter>
       </form>
     </Card>
   );
-}
+} 
