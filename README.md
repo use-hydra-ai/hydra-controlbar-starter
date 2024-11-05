@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hydra Control Bar Starter Template
+
+This is a starter template for building applications with natural language control using [Hydra AI](https://github.com/michaelmagan/hydraai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
+
+## Control Bar Component
+
+The control bar is implemented in `src/components/control-bar.tsx`. It provides a simple, customizable command palette that can be activated with a keyboard shortcut or clicked on the screen.
+
+Copy and paste the control bar component into your project and customize!
+
+## Demo Components
+
+The template includes a sample CRM application with the following components:
+
+- Lead Management
+- Meeting Scheduling
+- Messaging System
+- Notes System
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+```
+
+Then, create a `.env.local` file in the root directory and add your Hydra API key:
+
+```bash
+NEXT_PUBLIC_HYDRA_API_KEY=your_api_key_here
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Using the Control Bar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The Control Bar can be activated in two ways:
+1. Click the control bar 
+2. Press `⌘K` (Mac) or `Ctrl+K` (Windows/Linux)
+
+Try these example commands:
+- "Add a new lead"
+- "Show me all my leads"
+- "Schedule a meeting"
+- "Create a new message"
+
+## Implementing Your Own Components
+
+1. Create your component in the `src/components/searchable-components` directory
+2. Register it with Hydra in `src/hydra-client.ts`:
+
+```typescript
+await hydra.registerComponent(
+    "component-name",
+    "Description of what the component does",
+    YourComponent,
+    { prop1: "string", prop2: "number" },
+    [optionalContextTools]
+);
+```
+
+3. The component will now be available through natural language commands in the Control Bar
+
+## Project Structure
+
+- `/src/components/control-bar.tsx` - Main Control Bar implementation
+- `/src/hydra-client.ts` - Hydra AI client configuration and component registration
+- `/src/components/searchable-components` - Example components that can be accessed via the Control Bar
+- `/src/store` - State management using Zustand
+- `/src/services` - API and data services
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+- [Hydra AI Documentation](https://github.com/michaelmagan/hydraai)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License - feel free to use this template for your own projects.
