@@ -1,4 +1,4 @@
-import { LeadSchema, LeadStatusEnum } from "@/schemas/lead";
+import { LeadSchema, LeadStatusEnum, MessageSchema } from "@/schemas/lead";
 import { z } from "zod";
 
 export type Lead = z.infer<typeof LeadSchema>;
@@ -6,15 +6,7 @@ export type LeadStatus = z.infer<typeof LeadStatusEnum>;
 
 export type Note = z.infer<typeof LeadSchema>["notes"][number];
 export type Meeting = z.infer<typeof LeadSchema>["meetings"][number];
-
-export interface Message {
-    id: number;
-    leadId: number;
-    subject: string;
-    content: string;
-    timestamp: string;
-    status: 'draft' | 'sent';
-}
+export type Message = z.infer<typeof MessageSchema>;
 
 let leads: Lead[] = [
     {

@@ -28,4 +28,12 @@ export const LeadSchema = z.object({
     meetings: z.array(MeetingSchema),
 });
 
+export const MessageSchema = z.object({
+    id: z.number(),
+    email: z.string().email(),
+    subject: z.string(),
+    content: z.string(),
+    timestamp: z.string(),
+});
+
 export type Lead = z.infer<typeof LeadSchema>;

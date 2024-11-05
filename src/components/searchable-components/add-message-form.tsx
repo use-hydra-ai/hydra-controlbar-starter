@@ -11,10 +11,22 @@ interface AddMessageFormProps {
   onClose?: () => void;
 }
 
-export default function AddMessageForm({ onClose }: AddMessageFormProps) {
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [content, setContent] = useState('');
+interface AddMessageFormProps {
+  onClose?: () => void;
+  initialEmail?: string;
+  initialSubject?: string;
+  initialContent?: string;
+}
+
+export default function AddMessageForm({ 
+  initialEmail = '', 
+  initialSubject = '', 
+  initialContent = '', 
+  onClose, 
+}: AddMessageFormProps) {
+  const [email, setEmail] = useState(initialEmail);
+  const [subject, setSubject] = useState(initialSubject);
+  const [content, setContent] = useState(initialContent);
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
 
   const { addNewMessage } = useMessageStore();
@@ -27,7 +39,6 @@ export default function AddMessageForm({ onClose }: AddMessageFormProps) {
       email,
       subject,
       content,
-      status: 'draft',
       timestamp: new Date().toISOString(),
     });
 
