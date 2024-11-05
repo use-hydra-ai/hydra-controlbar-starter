@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import GitHubLink from "./github-link";
 
 export default function TitleSection() {
       const [isMac, setIsMac] = useState(false);
@@ -18,8 +19,9 @@ export default function TitleSection() {
           Control your app using natural language with the Control Bar by Hydra AI
         </h2>
         <p className="text-gray-400 max-w-xl">
-          Press <kbd className="px-2 py-1 bg-gray-700 rounded-md text-sm">{isMac ? '⌘K' : 'Ctrl+K'}</kbd> or click below to start controlling components conversationally
+          Press <kbd className="px-2 py-1 bg-gray-700 rounded-md text-sm">{isMac ? '⌘K' : 'Ctrl+K'}</kbd> or click the control bar below to start controlling components conversationally
         </p>
+        <GitHubLink />
       </div>
     </div>
   );
