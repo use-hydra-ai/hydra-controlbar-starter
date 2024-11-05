@@ -10,12 +10,14 @@ Copy and paste the control bar component into your project and customize!
 
 ## Demo Components
 
-The template includes a sample CRM application with the following components:
+The template includes a sample CRM application with components related to the following tasks:
 
 - Lead Management
 - Meeting Scheduling
 - Messaging System
 - Notes System
+
+They can be used through the control bar, or through the dashboard 'traditional UI'.
 
 ## Getting Started
 
