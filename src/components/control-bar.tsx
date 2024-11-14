@@ -1,4 +1,5 @@
 "use client";
+import { GenerateComponentResponse } from "hydra-ai/dist/hydra-ai/model/generate-component-response";
 import { Navigation } from "lucide-react";
 import { FormEvent, ReactElement, useEffect, useState } from "react";
 import hydra, { initHydraRegistration } from "../hydra-client";
@@ -40,6 +41,15 @@ export default function ControlBar() {
     };
   }, [inputRef]);
 
+  const handleProgressUpdate = (progress: GenerateComponentResponse) => {
+    if (progress.component) {
+      setResultComponent(progress.component);
+    }
+    if (progress.message) {
+      setResultText(progress.message);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!inputValue) return;
@@ -51,11 +61,8 @@ export default function ControlBar() {
     setResultText(null);
     setError(false);
     try {
-      const response = await hydra.generateComponent(inputValue);
-      if (response) {
-        setResultComponent(response.component ?? null);
-        setResultText(response.message ?? null);
-      } else {
+      const response = await hydra.generateComponent(inputValue, handleProgressUpdate);
+      if (!response) {
         setResultComponent("No result found");
       }
     } catch (err) {

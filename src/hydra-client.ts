@@ -6,7 +6,7 @@ import AddMessageForm from "./components/searchable-components/add-message-form"
 import EditLeadForm from "./components/searchable-components/edit-lead-form";
 import EditMeetingForm from "./components/searchable-components/edit-meeting-form";
 import LeadDetails from "./components/searchable-components/lead-details";
-import LeadList from "./components/searchable-components/lead-list";
+import LeadList, { LeadListSkeleton } from "./components/searchable-components/lead-list";
 import LeadNotes from "./components/searchable-components/lead-notes";
 import MeetingDetails from "./components/searchable-components/meeting-details";
 import MeetingsList from "./components/searchable-components/meetings-list";
@@ -18,6 +18,7 @@ import { getMessages } from "./services/messages-service";
 
 const hydra = new HydraClient({
     hydraApiKey: process.env.NEXT_PUBLIC_HYDRA_API_KEY,
+    hydraApiUrl: "http://localhost:3000",
 });
 
 const getLeadsTool: ComponentContextTool = {
@@ -61,7 +62,8 @@ export const initHydraRegistration = async () => {
                 "A list of leads with their statuses",
                 LeadList,
                 { leads: `${leadSchemaString}[]` },
-                [getLeadsTool]
+                [getLeadsTool],
+                LeadListSkeleton
             ),
             hydra.registerComponent("lead-details", "A component for viewing details of a lead. These details include things like name, email, phone, status, and notes.", LeadDetails,
                 { leadId: "number" },
