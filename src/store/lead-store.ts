@@ -1,9 +1,10 @@
 import { create } from 'zustand';
-import { Lead, Meeting, addLead, addMeeting, getLeads, updateLead, updateLeadStatus } from '../services/leads-service';
+import { Lead, LeadFilters, Meeting, addLead, addMeeting, getFilteredLeads, getLeads, updateLead, updateLeadStatus } from '../services/leads-service';
 
 interface LeadStore {
     leads: Lead[];
     fetchLeads: () => Promise<void>;
+    fetchFilteredLeads: (filters: LeadFilters) => Promise<void>;
     addNewLead: (lead: Omit<Lead, 'id'>) => Promise<void>;
     updateExistingLead: (id: number, lead: Omit<Lead, 'id'>) => Promise<void>;
     updateLeadStatus: (id: number, status: Lead['status']) => Promise<void>;
@@ -15,6 +16,10 @@ export const useLeadStore = create<LeadStore>((set) => ({
     fetchLeads: async () => {
         const leads = await getLeads();
         set({ leads });
+    },
+    fetchFilteredLeads: async (filters) => {
+        const filteredLeads = await getFilteredLeads(filters);
+        set({ leads: filteredLeads });
     },
     addNewLead: async (lead) => {
         const newLead = await addLead(lead);

@@ -1,4 +1,4 @@
-import { LeadSchema, LeadStatusEnum, MessageSchema } from "@/schemas/lead";
+import { LeadFiltersSchema, LeadSchema, LeadStatusEnum, MessageSchema } from "@/schemas/lead";
 import { z } from "zod";
 
 export type Lead = z.infer<typeof LeadSchema>;
@@ -7,6 +7,8 @@ export type LeadStatus = z.infer<typeof LeadStatusEnum>;
 export type Note = z.infer<typeof LeadSchema>["notes"][number];
 export type Meeting = z.infer<typeof LeadSchema>["meetings"][number];
 export type Message = z.infer<typeof MessageSchema>;
+
+export type LeadFilters = z.infer<typeof LeadFiltersSchema>;
 
 const leads: Lead[] = [
     {
@@ -142,4 +144,52 @@ export async function addMeeting(leadId: number, meeting: Omit<Meeting, 'id' | '
         return newMeeting;
     }
     return undefined;
+}
+
+export async function getFilteredLeads(filters: LeadFilters = {}): Promise<Lead[]> {
+    let filteredLeads = [...leads];
+
+    if (filters.status) {
+        filteredLeads = filteredLeads.filter(lead => lead.status === filters.status);
+    }
+
+    if (filters.company) {
+        filteredLeads = filteredLeads.filter(lead =>
+            lead.company.toLowerCase().includes(filters.company!.toLowerCase())
+        );
+    }
+
+    if (filters.hasMeetings !== undefined) {
+        filteredLeads = filteredLeads.filter(lead =>
+            filters.hasMeetings ? lead.meetings.length > 0 : lead.meetings.length === 0
+        );
+    }
+
+    if (filters.hasNotes !== undefined) {
+        filteredLeads = filteredLeads.filter(lead =>
+            filters.hasNotes ? lead.notes.length > 0 : lead.notes.length === 0
+        );
+    }
+
+    if (filters.search) {
+        const searchTerm = filters.search.toLowerCase();
+        filteredLeads = filteredLeads.filter(lead =>
+            lead.name.toLowerCase().includes(searchTerm) ||
+            lead.email.toLowerCase().includes(searchTerm) ||
+            lead.company.toLowerCase().includes(searchTerm)
+        );
+    }
+
+    if (filters.dateFrom || filters.dateTo) {
+        filteredLeads = filteredLeads.filter(lead => {
+            return lead.meetings.some(meeting => {
+                const meetingDate = new Date(meeting.date);
+                if (filters.dateFrom && meetingDate < new Date(filters.dateFrom)) return false;
+                if (filters.dateTo && meetingDate > new Date(filters.dateTo)) return false;
+                return true;
+            });
+        });
+    }
+
+    return filteredLeads;
 }

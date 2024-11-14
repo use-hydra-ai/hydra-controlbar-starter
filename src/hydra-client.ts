@@ -6,13 +6,14 @@ import AddMessageForm from "./components/searchable-components/add-message-form"
 import EditLeadForm from "./components/searchable-components/edit-lead-form";
 import EditMeetingForm from "./components/searchable-components/edit-meeting-form";
 import LeadDetails from "./components/searchable-components/lead-details";
-import LeadList, { LeadListSkeleton } from "./components/searchable-components/lead-list";
+import { LeadListSkeleton } from "./components/searchable-components/lead-list";
+import LeadListContainer from "./components/searchable-components/lead-list-container";
 import LeadNotes from "./components/searchable-components/lead-notes";
 import MeetingDetails from "./components/searchable-components/meeting-details";
 import MeetingsList from "./components/searchable-components/meetings-list";
 import MessageDetails from "./components/searchable-components/message-details";
 import MessagesList from "./components/searchable-components/messages-list";
-import { LeadSchema, MeetingSchema, MessageSchema } from "./schemas/lead";
+import { LeadFiltersSchema, LeadSchema, MeetingSchema, MessageSchema } from "./schemas/lead";
 import { getLeads } from "./services/leads-service";
 import { getMessages } from "./services/messages-service";
 
@@ -48,6 +49,7 @@ export const initHydraRegistration = async () => {
     const leadSchemaString = JSON.stringify(LeadSchema.shape);
     const meetingSchemaString = JSON.stringify(MeetingSchema.shape);
     const messageSchemaString = JSON.stringify(MessageSchema.shape);
+    const leadFiltersSchemaString = JSON.stringify(LeadFiltersSchema.shape);
 
     try {
         await Promise.all([
@@ -59,9 +61,11 @@ export const initHydraRegistration = async () => {
             }),
             hydra.registerComponent({
                 name: "lead-list",
-                description: "A list of leads with their statuses",
-                component: LeadList,
-                propsDefinition: { leads: `${leadSchemaString}[]` },
+                description: "A list of leads with their statuses. Use this when the user wants to view all leads or filter them.",
+                component: LeadListContainer,
+                propsDefinition: {
+                    filters: leadFiltersSchemaString
+                },
                 contextTools: [getLeadsTool],
                 loadingComponent: LeadListSkeleton
             }),
