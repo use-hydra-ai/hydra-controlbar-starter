@@ -51,64 +51,94 @@ export const initHydraRegistration = async () => {
 
     try {
         await Promise.all([
-            hydra.registerComponent(
-                "add-lead-form",
-                "A form for adding new leads",
-                AddLeadForm,
-                { lead: leadSchemaString },
-            ),
-            hydra.registerComponent(
-                "lead-list",
-                "A list of leads with their statuses",
-                LeadList,
-                { leads: `${leadSchemaString}[]` },
-                [getLeadsTool],
-                LeadListSkeleton
-            ),
-            hydra.registerComponent("lead-details", "A component for viewing details of a lead. These details include things like name, email, phone, status, and notes.", LeadDetails,
-                { leadId: "number" },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("edit-lead-form", "A form for editing existing leads", EditLeadForm,
-                { lead: leadSchemaString },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("lead-notes", "A component for adding and viewing notes on a lead", LeadNotes,
-                { lead: leadSchemaString },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("meetings-list", "A list of meetings with their details", MeetingsList,
-                { meetings: `${meetingSchemaString}[]` },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("add-meeting-form", "A component for scheduling meetings with leads", AddMeetingForm,
-                {
+            hydra.registerComponent({
+                name: "add-lead-form",
+                description: "A form for adding new leads",
+                component: AddLeadForm,
+                propsDefinition: { lead: leadSchemaString },
+            }),
+            hydra.registerComponent({
+                name: "lead-list",
+                description: "A list of leads with their statuses",
+                component: LeadList,
+                propsDefinition: { leads: `${leadSchemaString}[]` },
+                contextTools: [getLeadsTool],
+                loadingComponent: LeadListSkeleton
+            }),
+            hydra.registerComponent({
+                name: "lead-details",
+                description: "A component for viewing details of a lead. These details include things like name, email, phone, status, and notes.",
+                component: LeadDetails,
+                propsDefinition: { leadId: "number" },
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "edit-lead-form",
+                description: "A form for editing existing leads",
+                component: EditLeadForm,
+                propsDefinition: { lead: leadSchemaString },
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "lead-notes",
+                description: "A component for adding and viewing notes on a lead",
+                component: LeadNotes,
+                propsDefinition: { lead: leadSchemaString },
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "meetings-list",
+                description: "A list of meetings with their details",
+                component: MeetingsList,
+                propsDefinition: { meetings: `${meetingSchemaString}[]` },
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "add-meeting-form",
+                description: "A component for scheduling meetings with leads",
+                component: AddMeetingForm,
+                propsDefinition: {
                     initialDateTimeISO: "string in ISO format",
                     initialDescription: "string",
                     initialLeadId: "string"
                 },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("meeting-details", "A component for viewing details of a meeting", MeetingDetails,
-                { meeting: meetingSchemaString, leadId: "string" },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("edit-meeting-form", "A component for editing details of a meeting", EditMeetingForm,
-                { meeting: meetingSchemaString, leadId: "string" },
-                [getLeadsTool]
-            ),
-            hydra.registerComponent("add-message-form", "A component for creating messages or emails to send", AddMessageForm,
-                { initialEmail: "string", initialSubject: "string", initialContent: "string" },
-                [getMessagesTool]
-            ),
-            hydra.registerComponent("message-details", "A component for viewing details of a message", MessageDetails,
-                { message: messageSchemaString, leadId: "string" },
-                [getMessagesTool]
-            ),
-            hydra.registerComponent("messages-list", "A list of messages with their details", MessagesList,
-                { messages: `${messageSchemaString}[]` },
-                [getMessagesTool]
-            ),
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "meeting-details",
+                description: "A component for viewing details of a meeting",
+                component: MeetingDetails,
+                propsDefinition: { meeting: meetingSchemaString, leadId: "string" },
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "edit-meeting-form",
+                description: "A component for editing details of a meeting",
+                component: EditMeetingForm,
+                propsDefinition: { meeting: meetingSchemaString, leadId: "string" },
+                contextTools: [getLeadsTool]
+            }),
+            hydra.registerComponent({
+                name: "add-message-form",
+                description: "A component for creating messages or emails to send",
+                component: AddMessageForm,
+                propsDefinition: { initialEmail: "string", initialSubject: "string", initialContent: "string" },
+                contextTools: [getMessagesTool]
+            }),
+            hydra.registerComponent({
+                name: "message-details",
+                description: "A component for viewing details of a message",
+                component: MessageDetails,
+                propsDefinition: { message: messageSchemaString, leadId: "string" },
+                contextTools: [getMessagesTool]
+            }),
+            hydra.registerComponent({
+                name: "messages-list",
+                description: "A list of messages with their details",
+                component: MessagesList,
+                propsDefinition: { messages: `${messageSchemaString}[]` },
+                contextTools: [getMessagesTool]
+            }),
         ]);
     } catch (error) {
         console.error("Error registering components:", error);
