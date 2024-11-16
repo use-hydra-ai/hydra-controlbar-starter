@@ -12,8 +12,8 @@ import LeadNotes from "./components/searchable-components/lead-notes";
 import MeetingDetails from "./components/searchable-components/meeting-details";
 import MeetingsListContainer from "./components/searchable-components/meetings-list-container";
 import MessageDetails from "./components/searchable-components/message-details";
-import MessagesList from "./components/searchable-components/messages-list";
-import { LeadFiltersSchema, LeadSchema, MeetingFiltersSchema, MeetingSchema, MessageSchema } from "./schemas/lead";
+import MessagesListContainer from "./components/searchable-components/messages-list-container";
+import { LeadFiltersSchema, LeadSchema, MeetingFiltersSchema, MeetingSchema, MessageFiltersSchema, MessageSchema } from "./schemas/lead";
 import { getLeads } from "./services/leads-service";
 import { getMessages } from "./services/messages-service";
 
@@ -51,6 +51,7 @@ export const initHydraRegistration = async () => {
     const messageSchemaString = JSON.stringify(MessageSchema.shape);
     const leadFiltersSchemaString = JSON.stringify(LeadFiltersSchema.shape);
     const meetingFiltersSchemaString = JSON.stringify(MeetingFiltersSchema.shape);
+    const messageFiltersSchemaString = JSON.stringify(MessageFiltersSchema.shape);
 
     try {
         await Promise.all([
@@ -142,8 +143,10 @@ export const initHydraRegistration = async () => {
             hydra.registerComponent({
                 name: "messages-list",
                 description: "A list of messages with their details",
-                component: MessagesList,
-                propsDefinition: { messages: `${messageSchemaString}[]` },
+                component: MessagesListContainer,
+                propsDefinition: {
+                    filters: messageFiltersSchemaString
+                },
                 contextTools: [getMessagesTool]
             }),
         ]);

@@ -6,10 +6,10 @@ import AddMessageForm from './add-message-form';
 
 interface MessagesListProps {
   messages: Message[];
-  onSelectMessage: (message: Message) => void;
+  onSelectMessage?: (message: Message) => void;
 }
 
-export default function MessagesList({ messages, onSelectMessage }: MessagesListProps) {
+export default function MessagesList({ messages =[], onSelectMessage }: MessagesListProps) {
   const [showAddForm, setShowAddForm] = useState(false);
 
   return (
@@ -34,12 +34,11 @@ export default function MessagesList({ messages, onSelectMessage }: MessagesList
         {messages.map((message) => (
           <div
             key={message.id}
-            onClick={() => onSelectMessage(message)}
+            onClick={() => onSelectMessage && onSelectMessage(message)}
             className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
           >
             <div className="flex justify-between items-start mb-2">
               <h3 className="font-medium text-sm">{message.subject}</h3>
-
             </div>
             <p className="text-sm text-gray-600 truncate mb-1">{message.email}</p>
             <p className="text-xs text-gray-400">

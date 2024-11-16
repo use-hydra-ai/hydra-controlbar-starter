@@ -73,4 +73,12 @@ export const MeetingFiltersSchema = z.object({
         .describe("Search meetings by description (case-insensitive partial match)")
 });
 
+export const MessageFiltersSchema = z.object({
+    search: z.string().optional(),
+    dateFrom: z.string().optional(),
+    dateTo: z.string().optional(),
+    email: z.string().optional(),
+});
+
 export type Lead = z.infer<typeof LeadSchema>;
+export type MessageFilters = z.infer<typeof MessageFiltersSchema>;
