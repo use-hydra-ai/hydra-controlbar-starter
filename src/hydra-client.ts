@@ -10,8 +10,10 @@ import { LeadListSkeleton } from "./components/searchable-components/lead-list";
 import LeadListContainer from "./components/searchable-components/lead-list-container";
 import LeadNotes from "./components/searchable-components/lead-notes";
 import MeetingDetails from "./components/searchable-components/meeting-details";
+import { MeetingsListSkeleton } from "./components/searchable-components/meetings-list";
 import MeetingsListContainer from "./components/searchable-components/meetings-list-container";
 import MessageDetails from "./components/searchable-components/message-details";
+import { MessagesListSkeleton } from "./components/searchable-components/messages-list";
 import MessagesListContainer from "./components/searchable-components/messages-list-container";
 import { LeadFiltersSchema, LeadSchema, MeetingFiltersSchema, MeetingSchema, MessageFiltersSchema, MessageSchema } from "./schemas/lead";
 import { getLeads } from "./services/leads-service";
@@ -19,7 +21,8 @@ import { getMessages } from "./services/messages-service";
 
 const hydra = new HydraClient({
     hydraApiKey: process.env.NEXT_PUBLIC_HYDRA_API_KEY,
-    hydraApiUrl: "https://api.usehydra.ai",
+    // hydraApiUrl: "https://api.usehydra.ai",
+    hydraApiUrl: "http://localhost:3000",
 });
 
 const getLeadsTool: ComponentContextTool = {
@@ -99,7 +102,8 @@ export const initHydraRegistration = async () => {
                 propsDefinition: {
                     filters: meetingFiltersSchemaString
                 },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: MeetingsListSkeleton
             }),
             hydra.registerComponent({
                 name: "add-meeting-form",
@@ -147,7 +151,8 @@ export const initHydraRegistration = async () => {
                 propsDefinition: {
                     filters: messageFiltersSchemaString
                 },
-                contextTools: [getMessagesTool]
+                contextTools: [getMessagesTool],
+                loadingComponent: MessagesListSkeleton
             }),
         ]);
     } catch (error) {
