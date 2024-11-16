@@ -10,23 +10,23 @@ import { LeadListSkeleton } from "./components/searchable-components/lead-list";
 import LeadListContainer from "./components/searchable-components/lead-list-container";
 import LeadNotes from "./components/searchable-components/lead-notes";
 import MeetingDetails from "./components/searchable-components/meeting-details";
-import MeetingsList from "./components/searchable-components/meetings-list";
+import MeetingsListContainer from "./components/searchable-components/meetings-list-container";
 import MessageDetails from "./components/searchable-components/message-details";
 import MessagesList from "./components/searchable-components/messages-list";
-import { LeadFiltersSchema, LeadSchema, MeetingSchema, MessageSchema } from "./schemas/lead";
+import { LeadFiltersSchema, LeadSchema, MeetingFiltersSchema, MeetingSchema, MessageSchema } from "./schemas/lead";
 import { getLeads } from "./services/leads-service";
 import { getMessages } from "./services/messages-service";
 
 const hydra = new HydraClient({
     hydraApiKey: process.env.NEXT_PUBLIC_HYDRA_API_KEY,
-    hydraApiUrl: "http://localhost:3000",
+    hydraApiUrl: "https://api.usehydra.ai",
 });
 
 const getLeadsTool: ComponentContextTool = {
     getComponentContext: getLeads,
     definition: {
         name: "getLeads",
-        description: "Get a list of all the leads",
+        description: "Get a list of all the leads, which includes meetings, notes, and messages",
         parameters: []
     }
 }
@@ -50,6 +50,7 @@ export const initHydraRegistration = async () => {
     const meetingSchemaString = JSON.stringify(MeetingSchema.shape);
     const messageSchemaString = JSON.stringify(MessageSchema.shape);
     const leadFiltersSchemaString = JSON.stringify(LeadFiltersSchema.shape);
+    const meetingFiltersSchemaString = JSON.stringify(MeetingFiltersSchema.shape);
 
     try {
         await Promise.all([
@@ -92,9 +93,11 @@ export const initHydraRegistration = async () => {
             }),
             hydra.registerComponent({
                 name: "meetings-list",
-                description: "A list of meetings with their details",
-                component: MeetingsList,
-                propsDefinition: { meetings: `${meetingSchemaString}[]` },
+                description: "A list of meetings with their details. Use this when the user wants to view all meetings, filter them by date, or search for specific meetings.",
+                component: MeetingsListContainer,
+                propsDefinition: {
+                    filters: meetingFiltersSchemaString
+                },
                 contextTools: [getLeadsTool]
             }),
             hydra.registerComponent({

@@ -7,7 +7,7 @@ import MeetingDetails from './meeting-details';
 
 interface MeetingsListProps {
   meetings: Meeting[];
-  onSelectMeeting: (meeting: Meeting) => void;
+  onSelectMeeting?: (meeting: Meeting) => void;
 }
 
 export default function MeetingsList({ meetings, onSelectMeeting }: MeetingsListProps) {

@@ -59,4 +59,18 @@ export const LeadFiltersSchema = z.object({
         .describe("Filter leads with meetings scheduled until this date (ISO format)")
 });
 
+export const MeetingFiltersSchema = z.object({
+    leadId: z.number().optional()
+        .describe("Filter meetings for a specific lead"),
+
+    dateFrom: z.string().optional()
+        .describe("Filter meetings from this date (ISO format)"),
+
+    dateTo: z.string().optional()
+        .describe("Filter meetings until this date (ISO format)"),
+
+    search: z.string().optional()
+        .describe("Search meetings by description (case-insensitive partial match)")
+});
+
 export type Lead = z.infer<typeof LeadSchema>;

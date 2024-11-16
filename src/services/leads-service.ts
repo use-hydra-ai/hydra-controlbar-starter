@@ -1,4 +1,4 @@
-import { LeadFiltersSchema, LeadSchema, LeadStatusEnum, MessageSchema } from "@/schemas/lead";
+import { LeadFiltersSchema, LeadSchema, LeadStatusEnum, MeetingFiltersSchema, MessageSchema } from "@/schemas/lead";
 import { z } from "zod";
 
 export type Lead = z.infer<typeof LeadSchema>;
@@ -9,6 +9,7 @@ export type Meeting = z.infer<typeof LeadSchema>["meetings"][number];
 export type Message = z.infer<typeof MessageSchema>;
 
 export type LeadFilters = z.infer<typeof LeadFiltersSchema>;
+export type MeetingFilters = z.infer<typeof MeetingFiltersSchema>;
 
 const leads: Lead[] = [
     {
