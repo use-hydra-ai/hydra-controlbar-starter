@@ -36,4 +36,49 @@ export const MessageSchema = z.object({
     timestamp: z.string(),
 });
 
+export const LeadFiltersSchema = z.object({
+    status: z.enum(["New", "Contacted", "Qualified", "Closed"]).optional()
+        .describe("Filter leads by their current status"),
+
+    company: z.string().optional()
+        .describe("Filter leads by company name (case-insensitive partial match)"),
+
+    hasMeetings: z.boolean().optional()
+        .describe("Filter leads based on whether they have any scheduled meetings"),
+
+    hasNotes: z.boolean().optional()
+        .describe("Filter leads based on whether they have any notes"),
+
+    search: z.string().optional()
+        .describe("Search leads by name, email, or company (case-insensitive partial match)"),
+
+    dateFrom: z.string().optional()
+        .describe("Filter leads with meetings scheduled from this date (ISO format)"),
+
+    dateTo: z.string().optional()
+        .describe("Filter leads with meetings scheduled until this date (ISO format)")
+});
+
+export const MeetingFiltersSchema = z.object({
+    leadId: z.number().optional()
+        .describe("Filter meetings for a specific lead"),
+
+    dateFrom: z.string().optional()
+        .describe("Filter meetings from this date (ISO format)"),
+
+    dateTo: z.string().optional()
+        .describe("Filter meetings until this date (ISO format)"),
+
+    search: z.string().optional()
+        .describe("Search meetings by description (case-insensitive partial match)")
+});
+
+export const MessageFiltersSchema = z.object({
+    search: z.string().optional(),
+    dateFrom: z.string().optional(),
+    dateTo: z.string().optional(),
+    email: z.string().optional(),
+});
+
 export type Lead = z.infer<typeof LeadSchema>;
+export type MessageFilters = z.infer<typeof MessageFiltersSchema>;
