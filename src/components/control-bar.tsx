@@ -83,7 +83,7 @@ export default function ControlBar({ hydra }: ControlBarProps) {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full max-w-[500px]  p-4 bg-white rounded-xl mb-8 flex items-center justify-between text-gray-800 hover:bg-white/[.9] transition-colors"
+        className="w-full max-w-[500px] p-4 bg-white rounded-xl mb-8 flex items-center justify-between text-gray-800 hover:bg-white/[.9] transition-colors"
       >
         <div className="flex items-center">
           <Navigation className="mr-3" size={20} />
@@ -107,13 +107,16 @@ export default function ControlBar({ hydra }: ControlBarProps) {
               <input
                 type="text"
                 placeholder="What do you want to do?"
-                className="w-full pl-12 h-12 py-7 rounded-lg bg-background text-foreground focus:outline-none"
+                className="w-full pl-12 pr-24 h-12 py-7 rounded-lg bg-background text-foreground focus:outline-none"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 ref={(el) => setInputRef(el)}
                 autoFocus
               />
               <Navigation className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800" size={20} />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <span className="text-xs text-gray-400"><kbd className="px-2 py-1 text-gray-800 bg-gray-100 rounded-md text-sm">esc</kbd> to exit</span>
+              </div>
             </form>
             <div className="w-full p-8 bg-background border-black/[.08] dark:border-white/[.145] border rounded-lg mt-4 overflow-hidden">
               <div className="overflow-y-auto max-h-[60vh] pr-4 -mr-4">
