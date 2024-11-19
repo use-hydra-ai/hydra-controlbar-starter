@@ -1,10 +1,14 @@
 "use client";
+import { HydraClient } from "hydra-ai";
 import { GenerateComponentResponse } from "hydra-ai/dist/hydra-ai/model/generate-component-response";
 import { Navigation } from "lucide-react";
 import { FormEvent, ReactElement, useEffect, useState } from "react";
-import hydra, { initHydraRegistration } from "../hydra-client";
 
-export default function ControlBar() {
+interface ControlBarProps {
+  hydra: HydraClient;
+}
+
+export default function ControlBar({ hydra }: ControlBarProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,7 +20,6 @@ export default function ControlBar() {
   const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
-    initHydraRegistration();
     setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
   }, []);
 

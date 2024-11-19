@@ -1,5 +1,7 @@
+"use client";
 import CRMDashboard from "@/components/dashboard/crm-dashboard";
 import TitleSection from "@/components/title-section";
+import hydra from "@/hydra-client";
 import ControlBar from "../components/control-bar";
 
 export default function Home() {
@@ -8,7 +10,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 items-center justify-center pt-24">
         <TitleSection />
         <div className="w-full max-w-7xl flex flex-col gap-4 justify-center items-center">
-          <ControlBar />
+          <ControlBar hydra={hydra} />
         </div>
         <CRMDashboard />
       </main>
