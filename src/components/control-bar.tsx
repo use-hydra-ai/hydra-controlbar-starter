@@ -1,4 +1,5 @@
 "use client";
+import { initHydraRegistration } from "@/hydra-client";
 import { HydraClient } from "hydra-ai";
 import { GenerateComponentResponse } from "hydra-ai/dist/hydra-ai/model/generate-component-response";
 import { Navigation } from "lucide-react";
@@ -20,6 +21,7 @@ export default function ControlBar({ hydra }: ControlBarProps) {
   const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
+    initHydraRegistration();
     setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
   }, []);
 
@@ -81,7 +83,7 @@ export default function ControlBar({ hydra }: ControlBarProps) {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full max-w-[500px] p-4 bg-white rounded-xl mb-8 flex items-center justify-between text-gray-800 hover:bg-white/[.9] transition-colors"
+        className="w-full max-w-[500px]  p-4 bg-white rounded-xl mb-8 flex items-center justify-between text-gray-800 hover:bg-white/[.9] transition-colors"
       >
         <div className="flex items-center">
           <Navigation className="mr-3" size={20} />
@@ -98,7 +100,7 @@ export default function ControlBar({ hydra }: ControlBarProps) {
           onClick={() => setIsModalOpen(false)}
         >
           <div 
-            className="w-full max-w-[500px]  rounded-lg "
+            className="w-full max-w-[500px] max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <form onSubmit={handleSubmit} className="relative mb-4 shadow-xl">
@@ -113,45 +115,47 @@ export default function ControlBar({ hydra }: ControlBarProps) {
               />
               <Navigation className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800" size={20} />
             </form>
-            <div className="w-full p-8 bg-background border-black/[.08] dark:border-white/[.145] border rounded-lg mt-4">
-              {(resultComponent || resultText || isLoading) ? (
-                <>
-                  {search && (
-                    <div
-                      className={`font-medium text-md flex flex-row items-center gap-2 ${
-                        error ? "text-red-500" : "text-emerald-500"
-                      }`}
-                    >
-                      {isLoading ? (
-                        <span className="animate-ping inline-flex h-1 w-1 rounded-full bg-emerald-500 opacity-90"></span>
-                      ) : error ? (
-                        <div className="inline-flex items-center justify-center p-1 rounded-full bg-red-500">
-                          <ErrorIcon className="w-3 h-3 text-white" />
-                        </div>
-                      ) : (
-                        <div className="inline-flex items-center justify-center p-1 rounded-full bg-emerald-500">
-                          <CheckIcon className="w-3 h-3 text-white" />
-                        </div>
-                      )}
-                      {search}
-                    </div>
-                  )}
-                  {resultText && <div className="mt-2 text-sm text-gray-800 dark:text-gray-800">{resultText}</div>}
-                  {resultComponent && <div className="mt-2">{resultComponent}</div>}
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-gray-800 dark:text-gray-800 mb-4">
-                    Describe what you want to do and I&apos;ll find the feature for you and help you use it.
-                  </p>
-                  
-                </>
-              )}
-              <p className="mt-4 text-xs text-gray-400 dark:text-gray-500">
-                powered by <a href="https://github.com/michaelmagan/hydraai" className="text-blue-500 hover:text-blue-900 transition-colors ">hydra-ai</a>
-              </p>
+            <div className="w-full p-8 bg-background border-black/[.08] dark:border-white/[.145] border rounded-lg mt-4 overflow-hidden">
+              <div className="overflow-y-auto max-h-[60vh] pr-4 -mr-4">
+                {(resultComponent || resultText || isLoading) ? (
+                  <>
+                    {search && (
+                      <div
+                        className={`font-medium text-md flex flex-row items-center gap-2 ${
+                          error ? "text-red-500" : "text-emerald-500"
+                        }`}
+                      >
+                        {isLoading ? (
+                          <span className="animate-ping inline-flex h-1 w-1 rounded-full bg-emerald-500 opacity-90"></span>
+                        ) : error ? (
+                          <div className="inline-flex items-center justify-center p-1 rounded-full bg-red-500">
+                            <ErrorIcon className="w-3 h-3 text-white" />
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center justify-center p-1 rounded-full bg-emerald-500">
+                            <CheckIcon className="w-3 h-3 text-white" />
+                          </div>
+                        )}
+                        {search}
+                      </div>
+                    )}
+                    {resultText && <div className="mt-2 text-sm text-gray-800 dark:text-gray-800">{resultText}</div>}
+                    {resultComponent && <div className="mt-2">{resultComponent}</div>}
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-800 dark:text-gray-800 mb-4">
+                      Describe what you want to do and I&apos;ll find the feature for you and help you use it.
+                    </p>
+                    
+                  </>
+                )}
+                <p className="mt-4 text-xs text-gray-400 dark:text-gray-500">
+                  powered by <a href="https://github.com/michaelmagan/hydraai" className="text-blue-500 hover:text-blue-900 transition-colors ">hydra-ai</a>
+                </p>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
       )}
     </>
