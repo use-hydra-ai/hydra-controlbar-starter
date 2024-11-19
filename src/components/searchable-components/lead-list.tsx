@@ -102,7 +102,10 @@ export default function LeadList({ leads = [], onSelectLead, isLoading = false }
             </div>
             <div className="relative">
               <button
-                onClick={() => setOpenDropdown(openDropdown === lead.id ? null : lead.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdown(openDropdown === lead.id ? null : lead.id);
+                }}
                 className={`px-2 py-1 rounded-md text-sm font-medium hover:opacity-80 ${getStatusColor(lead.status).bg} ${getStatusColor(lead.status).text}`}
               >
                 {lead.status}
@@ -115,7 +118,10 @@ export default function LeadList({ leads = [], onSelectLead, isLoading = false }
                       return (
                         <button
                           key={status}
-                          onClick={() => handleStatusChange(lead.id, status as LeadStatus)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStatusChange(lead.id, status as LeadStatus);
+                          }}
                           className={`block w-full text-left px-4 py-2 text-sm hover:opacity-80`}
                           role="menuitem"
                         >
