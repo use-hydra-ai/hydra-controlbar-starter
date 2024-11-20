@@ -1,7 +1,7 @@
 "use client";
 import CRMDashboard from "@/components/dashboard/crm-dashboard";
 import TitleSection from "@/components/title-section";
-import hydra from "@/hydra-client";
+import hydra from "@/hydra-config";
 import ControlBar from "../components/control-bar";
 
 export default function Home() {
