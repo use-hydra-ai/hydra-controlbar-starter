@@ -15,6 +15,7 @@ import MeetingsListContainer from "./components/searchable-components/meetings-l
 import MessageDetails from "./components/searchable-components/message-details";
 import { MessagesListSkeleton } from "./components/searchable-components/messages-list";
 import MessagesListContainer from "./components/searchable-components/messages-list-container";
+import { AddMessageFormSkeleton, EditMeetingFormSkeleton, FormSkeleton, LeadDetailsSkeleton, LeadNotesSkeleton, MeetingDetailsSkeleton, MeetingFormSkeleton, MessageDetailsSkeleton } from "./components/skeletons";
 import { LeadFiltersSchema, LeadSchema, MeetingFiltersSchema, MeetingSchema, MessageFiltersSchema, MessageSchema } from "./schemas/lead";
 import { getLeads } from "./services/leads-service";
 import { getMessages } from "./services/messages-service";
@@ -22,6 +23,7 @@ import { getMessages } from "./services/messages-service";
 const hydra = new HydraClient({
     hydraApiKey: process.env.NEXT_PUBLIC_HYDRA_API_KEY,
     hydraApiUrl: "https://api.usehydra.ai",
+    // hydraApiUrl: "http://localhost:3000",
 });
 
 const getLeadsTool: ComponentContextTool = {
@@ -62,6 +64,7 @@ export const initHydraRegistration = async () => {
                 description: "A form for adding new leads",
                 component: AddLeadForm,
                 propsDefinition: { lead: leadSchemaString },
+                loadingComponent: FormSkeleton
             }),
             hydra.registerComponent({
                 name: "lead-list",
@@ -78,21 +81,24 @@ export const initHydraRegistration = async () => {
                 description: "A component for viewing details of a lead. These details include things like name, email, phone, status, and notes.",
                 component: LeadDetails,
                 propsDefinition: { leadId: "number" },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: LeadDetailsSkeleton
             }),
             hydra.registerComponent({
                 name: "edit-lead-form",
                 description: "A form for editing existing leads",
                 component: EditLeadForm,
                 propsDefinition: { lead: leadSchemaString },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: FormSkeleton
             }),
             hydra.registerComponent({
                 name: "lead-notes",
                 description: "A component for adding and viewing notes on a lead",
                 component: LeadNotes,
                 propsDefinition: { lead: leadSchemaString },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: LeadNotesSkeleton
             }),
             hydra.registerComponent({
                 name: "meetings-list",
@@ -113,35 +119,40 @@ export const initHydraRegistration = async () => {
                     initialDescription: "string",
                     initialLeadId: "string"
                 },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: MeetingFormSkeleton
             }),
             hydra.registerComponent({
                 name: "meeting-details",
                 description: "A component for viewing details of a meeting",
                 component: MeetingDetails,
                 propsDefinition: { meeting: meetingSchemaString, leadId: "string" },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: MeetingDetailsSkeleton
             }),
             hydra.registerComponent({
                 name: "edit-meeting-form",
                 description: "A component for editing details of a meeting",
                 component: EditMeetingForm,
                 propsDefinition: { meeting: meetingSchemaString, leadId: "string" },
-                contextTools: [getLeadsTool]
+                contextTools: [getLeadsTool],
+                loadingComponent: EditMeetingFormSkeleton
             }),
             hydra.registerComponent({
                 name: "add-message-form",
                 description: "A component for creating messages or emails to send",
                 component: AddMessageForm,
                 propsDefinition: { initialEmail: "string", initialSubject: "string", initialContent: "string" },
-                contextTools: [getMessagesTool]
+                contextTools: [getMessagesTool],
+                loadingComponent: AddMessageFormSkeleton
             }),
             hydra.registerComponent({
                 name: "message-details",
                 description: "A component for viewing details of a message",
                 component: MessageDetails,
                 propsDefinition: { message: messageSchemaString, leadId: "string" },
-                contextTools: [getMessagesTool]
+                contextTools: [getMessagesTool],
+                loadingComponent: MessageDetailsSkeleton
             }),
             hydra.registerComponent({
                 name: "messages-list",
