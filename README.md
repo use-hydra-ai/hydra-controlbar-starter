@@ -1,6 +1,8 @@
 # Hydra Control Bar Starter Template
 
-This is a starter template for building applications with natural language control using [Hydra AI](https://github.com/michaelmagan/hydraai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
+This is a starter template for adding natural language control to your application using [Hydra AI](https://github.com/use-hydra-ai/hydraai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
+
+Add the control bar to your project with `npx hydra-ai-cli add control-bar`. This will add the control bar component to your project and guide you through Hydra configuration.
 
 ## Control Bar Component
 
@@ -53,19 +55,23 @@ Try these example commands:
 - "Schedule a meeting"
 - "Create a new message"
 
-## Implementing Your Own Components
+## Registering Your Own Components
 
 1. Create your component in the `src/components/searchable-components` directory
-2. Register it with Hydra in `src/hydra-client.ts`:
+2. Register it with Hydra in `src/hydra-config.ts`:
 
 ```typescript
-await hydra.registerComponent(
-    "component-name",
-    "Description of what the component does",
-    YourComponent,
-    { prop1: "string", prop2: "number" },
-    [optionalContextTools]
-);
+await hydra.registerComponent({
+    name: "component-name",
+    description: "Description of what the component does and when it should be used",
+    component: YourComponent,
+    propsDefinition: { 
+        prop1: "string", 
+        prop2: "number" 
+    },
+    contextTools: [optionalContextTools],
+    loadingComponent: LoadingSkeletonComponent
+});
 ```
 
 3. The component will now be available through natural language commands in the Control Bar
@@ -73,7 +79,7 @@ await hydra.registerComponent(
 ## Project Structure
 
 - `/src/components/control-bar.tsx` - Main Control Bar implementation
-- `/src/hydra-client.ts` - Hydra AI client configuration and component registration
+- `/src/hydra-config.ts` - Hydra AI client configuration and component registration
 - `/src/components/searchable-components` - Example components that can be accessed via the Control Bar
 - `/src/store` - State management using Zustand
 - `/src/services` - API and data services

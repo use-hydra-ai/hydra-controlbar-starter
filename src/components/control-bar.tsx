@@ -1,5 +1,5 @@
 "use client";
-import { initHydraRegistration } from "@/hydra-client";
+import { initHydraRegistration } from "@/hydra-config";
 import { HydraClient } from "hydra-ai";
 import { GenerateComponentResponse } from "hydra-ai/dist/hydra-ai/model/generate-component-response";
 import { Navigation } from "lucide-react";
