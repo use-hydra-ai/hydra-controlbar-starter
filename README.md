@@ -23,19 +23,19 @@ They can be used through the control bar, or through the dashboard 'traditional 
 
 ## Getting Started
 
-First, install the dependencies:
+1. First, install the dependencies:
 
 ```bash
 npm install
 ```
 
-Then, create a `.env.local` file in the root directory and add your Hydra API key:
+2. Then, create a `.env.local` file in the root directory and add your Hydra API key (generate one at https://www.usehydra.ai/dashboard):
 
 ```bash
 NEXT_PUBLIC_HYDRA_API_KEY=your_api_key_here
 ```
 
-Run the development server:
+3. Run the development server:
 
 ```bash
 npm run dev
