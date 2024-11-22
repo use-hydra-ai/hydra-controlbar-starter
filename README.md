@@ -1,6 +1,10 @@
 # Hydra Control Bar Starter Template
 
+Live demo [here](https://control-bar.usehydra.ai)
+
 This is a starter template for adding natural language control to your application using [Hydra AI](https://github.com/use-hydra-ai/hydraai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
+
+![Demo of Hydra Control Bar](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXdoM2g1ZnQ5eHB4dHJrYXVvbG9ncnpwYW02cG1yZGJiczJpdGdncCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tb2TWi1QOs1FhmeGoO/giphy.gif)
 
 Add the control bar to your project with `npx hydra-ai-cli add control-bar`. This will add the control bar component to your project and guide you through Hydra configuration.
 
