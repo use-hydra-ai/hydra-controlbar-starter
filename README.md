@@ -2,7 +2,7 @@
 
 Users don't need to learn how to use your app!
 
-This is a starter template for adding natural language control to your application using [Hydra AI](https://github.com/use-hydra-ai/hydraai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
+This is a starter template for adding natural language control to your application using [Hydra AI](https://www.usehydra.ai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
 
 Live demo [here](https://control-bar.usehydra.ai)
 
