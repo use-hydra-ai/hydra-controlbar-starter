@@ -1,8 +1,10 @@
 # Hydra Control Bar Starter Template
 
-Live demo [here](https://control-bar.usehydra.ai)
+Users don't need to learn how to use your app!
 
 This is a starter template for adding natural language control to your application using [Hydra AI](https://github.com/use-hydra-ai/hydraai). It demonstrates how to use a command palette-style control bar that allows users to interact with your application using natural language.
+
+Live demo [here](https://control-bar.usehydra.ai)
 
 ![Demo of Hydra Control Bar](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXdoM2g1ZnQ5eHB4dHJrYXVvbG9ncnpwYW02cG1yZGJiczJpdGdncCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tb2TWi1QOs1FhmeGoO/giphy.gif)
 

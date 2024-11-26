@@ -23,7 +23,6 @@ import { getMessages } from "./services/messages-service";
 const hydra = new HydraClient({
     hydraApiKey: process.env.NEXT_PUBLIC_HYDRA_API_KEY,
     hydraApiUrl: "https://api.usehydra.ai",
-    // hydraApiUrl: "http://localhost:3000",
 });
 
 const getLeadsTool: ComponentContextTool = {
