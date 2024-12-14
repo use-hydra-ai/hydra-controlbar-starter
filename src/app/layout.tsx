@@ -25,9 +25,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {process.env.NEXT_PUBLIC_ACKE_DOMAIN_ID && (
-        <script async src={`${process.env.NEXT_PUBLIC_ACKE_SERVER}/tracker.js`} data-ackee-server={process.env.NEXT_PUBLIC_ACKE_SERVER} data-ackee-domain-id={process.env.NEXT_PUBLIC_ACKE_DOMAIN_ID}></script>
-      )}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
